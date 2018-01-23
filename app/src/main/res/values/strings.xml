@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">LoginLogout</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_age">Age</string>
+    <string name="create_account">Create an Account</string>
+    <string name="txt_btn_login">Already Have an Account?\nLogin!!</string>
+    <string name="btn_link_signup">Not Registered ? Register Now !</string>
+    <string name="title_activity_nav">NavActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_bottom">BottomActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="spinner_month">- Select a Month -</string>
+    <string name="spinner_year">- Select a Year -</string>
+    <string name="title_activity_main2">Main2Activity</string>
+</resources>
