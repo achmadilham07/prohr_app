@@ -17,7 +17,7 @@ import com.example.ilham.loginlogout.Users;
 
 public class ProfileActivity extends Fragment {
 
-    private TextView uname, fullname, phoneNum, email, address;
+    private TextView uname, fullname, birthday, phoneNum, email, address, city, state, country;
     Users users;
 
     @Nullable
@@ -39,23 +39,35 @@ public class ProfileActivity extends Fragment {
 
         uname = (TextView) view.findViewById(R.id.profile_name);
         fullname = (TextView) view.findViewById(R.id.profile_fullName);
+        birthday = (TextView) view.findViewById(R.id.profile_birthDay);
         phoneNum = (TextView) view.findViewById(R.id.profile_phoneNum);
         email = (TextView) view.findViewById(R.id.profile_email);
         address = (TextView) view.findViewById(R.id.profile_address);
+        city = (TextView) view.findViewById(R.id.profile_city);
+        state = (TextView) view.findViewById(R.id.profile_state);
+        country = (TextView) view.findViewById(R.id.profile_country);
 
         String cekUname = users.getUname();
         String cekFullname = users.getFullname();
+        String cekBirthday = users.getBirthday();
         String cekPhoneNum = users.getPhoneNum();
         String cekEmail = users.getEmail();
         String cekAddress = users.getAddress();
+        String cekCity = users.getCity();
+        String cekState = users.getState();
+        String cekCountry= users.getCountry();
 
         uname.setText(cekUname);
         fullname.setText(cekFullname);
-        phoneNum.setText(""+cekPhoneNum);
+        birthday.setText(cekBirthday);
+        phoneNum.setText(cekPhoneNum);
         email.setText(cekEmail);
         address.setText(cekAddress);
+        city.setText(cekCity);
+        state.setText(cekState);
+        country.setText(cekCountry);
     }
-
+/*
     private void initialize() {
         uname.setText(users.getUname());
         fullname.setText(users.getFullname());
@@ -63,7 +75,7 @@ public class ProfileActivity extends Fragment {
         email.setText(users.getEmail());
         address.setText(users.getAddress());
     }
-/*
+
     private void findViewById() {
         uname = (TextView) getView().findViewById(R.id.profile_name);
         fullname = (TextView) getView().findViewById(R.id.profile_fullName);

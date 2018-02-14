@@ -1,5 +1,7 @@
 package com.example.ilham.loginlogout.Activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar();
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -65,8 +69,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
+            exitDialog();
         }
+    }
+
+    private void exitDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Mobile Office App")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        finish();
+                    }
+                });
+        Dialog alert = builder.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
+    }
+
+    private void logoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Mobile Office App")
+                .setMessage("Are you want to Logout?")
+                .setOnCancelListener(null)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        session.logoutUser();
+                        finish();
+                    }
+                });
+        Dialog alert = builder.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -84,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
 
         Fragment fragment = null;
+
         //initializing the fragment object which is selected
         switch (item) {
             case R.id.nav_home:
@@ -93,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_profile:
                 fragment = new ProfileActivity();
                 break;
+            case R.id.nav_contact:
+                fragment = new ContactActivity();
+                break;
             case R.id.nav_about:
                 fragment = new AboutActivity();
                 break;
@@ -100,8 +143,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ChangePassActivity();
                 break;
             case R.id.nav_logout:
-                session.logoutUser();
-                finish();
+                logoutDialog();
+//                session.logoutUser();
+//                finish();
                 break;
             default:
                 fragment = new HomeActivity();

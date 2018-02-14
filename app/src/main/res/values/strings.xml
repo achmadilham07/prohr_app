@@ -21,4 +21,30 @@
     <string name="spinner_month">- Select a Month -</string>
     <string name="spinner_year">- Select a Year -</string>
     <string name="title_activity_main2">Main2Activity</string>
+
+    <string-array name="month_array_full">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string-array name="month_array">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+    </string-array>
+    <string-array name="year_array">
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+    </string-array>
+
 </resources>

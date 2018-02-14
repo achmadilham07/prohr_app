@@ -26,7 +26,11 @@
         <activity android:name=".Activity.SalaryActivity" />
         <activity android:name=".Activity.LeaveActivity" />
         <activity android:name=".Activity.OvertimeActivity" />
-        <activity android:name=".Activity.ScheduleActivity"></activity>
+        <activity android:name=".Activity.ScheduleActivity" />
+        <activity android:name=".Activity.EntryActivity" />
+        <activity android:name=".Activity.EntryNowActivity" />
+        <activity android:name=".Activity.EntryRecentlyActivity" />
+        <activity android:name=".Activity.ContactEmpViewActivity"></activity>
     </application>
 
 </manifest>

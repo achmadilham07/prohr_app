@@ -79,6 +79,9 @@ public class HomeActivity extends Fragment {
                                                     case "6":
                                                         startActivity(new Intent(getContext(), ScheduleActivity.class));
                                                         break;
+                                                    case "8":
+                                                        startActivity(new Intent(getContext(), EntryActivity.class));
+                                                        break;
                                                     default:
                                                         Toast.makeText(getContext(), "" + data.getTitle(), Toast.LENGTH_LONG).show();
                                                         break;
@@ -100,6 +103,7 @@ public class HomeActivity extends Fragment {
         arrayList.add(new List("5", "Claim", "Tuntutan", R.drawable.ic_email));
         arrayList.add(new List("6", "Schedule", "Jadwal", R.drawable.ic_email));
         arrayList.add(new List("7", "Loan & Installment", "Pinjaman dan Angsuran", R.drawable.ic_email));
+        arrayList.add(new List("8", "Entry", "Pengajuan", R.drawable.ic_email));
 
 //        // setting data ke adapter
         adapter.updateData(arrayList);

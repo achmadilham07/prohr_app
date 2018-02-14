@@ -4,8 +4,10 @@
     android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_card"
+    android:layout_marginBottom="@dimen/margin_card"
     android:clickable="true"
+    app:cardCornerRadius="10dp"
+    android:background="@drawable/card_border"
     android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
@@ -13,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="7dp">
 
         <TextView
             android:id="@+id/presence_date"
@@ -23,14 +25,13 @@
             android:layout_weight="1"
             android:text="01"
             android:textAlignment="center"
-            android:textSize="35dp"
+            android:textSize="25dp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:background="#ededed" />
+            android:background="#aeaeae" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +51,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="Status  :"
-                    android:textSize="18dp" />
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/presence_status"
@@ -59,7 +60,7 @@
                     android:layout_weight="0.4"
                     android:text="Presence"
                     android:textAlignment="center"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -74,7 +75,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="In  :"
-                    android:textSize="18dp" />
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/presence_in"
@@ -83,7 +84,7 @@
                     android:layout_weight="0.4"
                     android:text="08:00"
                     android:textAlignment="center"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -98,7 +99,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="Out  :"
-                    android:textSize="18dp" />
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/presence_out"
@@ -107,7 +108,7 @@
                     android:layout_weight="0.4"
                     android:text="16:00"
                     android:textAlignment="center"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
             </LinearLayout>
 

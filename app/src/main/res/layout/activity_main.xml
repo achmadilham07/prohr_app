@@ -6,23 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp"
+    app:contentInsetStartWithNavigation="0dp"
     tools:openDrawer="start">
 
-    <!--
-    <include
-        layout="@layout/activity_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-       -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/toolbar"
             layout="@layout/toolbar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleview"

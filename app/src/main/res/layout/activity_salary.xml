@@ -8,7 +8,6 @@
     tools:context="com.example.ilham.loginlogout.Activity.SalaryActivity">
 
     <include
-        android:id="@+id/toolbar"
         layout="@layout/toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />

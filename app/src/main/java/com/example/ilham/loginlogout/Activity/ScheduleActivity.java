@@ -1,20 +1,20 @@
 package com.example.ilham.loginlogout.Activity;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.example.ilham.loginlogout.R;
 
-public class ScheduleActivity extends AppCompatActivity {
+public class ScheduleActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -28,4 +28,6 @@ public class ScheduleActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
 }
+

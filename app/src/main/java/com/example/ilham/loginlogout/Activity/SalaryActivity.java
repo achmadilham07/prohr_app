@@ -1,6 +1,5 @@
 package com.example.ilham.loginlogout.Activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +25,7 @@ public class SalaryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Salary");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+//        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
     }
 

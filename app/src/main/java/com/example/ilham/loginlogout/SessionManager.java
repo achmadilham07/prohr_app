@@ -18,11 +18,12 @@ import java.util.HashMap;
 @SuppressLint("CommitPrefEdits")
 public class SessionManager {
 
+
     // Shared Preferences
-    SharedPreferences pref;
+    public final SharedPreferences pref;
 
     // Editor for Shared preferences
-    Editor editor;
+    public final Editor editor;
 
     // Context
     Context _context;
@@ -31,7 +32,7 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
 
     // nama sharepreference
-    private static final String PREF_NAME = "Sesi";
+    public final String PREF_NAME = "USER";
 
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
