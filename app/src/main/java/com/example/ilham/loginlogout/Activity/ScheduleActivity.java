@@ -54,7 +54,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 List<Event> eventnya = compactCalendarView.getEvents(dateClicked);
                 if(eventnya.size() != 0)
                     for(int i=0; i<eventnya.size(); i++)
-                    Toast.makeText(getApplicationContext(),eventnya.get(i).getData().toString(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),eventnya.get(i).getData().toString(),Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getApplicationContext(),"Tidak ada event",Toast.LENGTH_SHORT).show();
             }
@@ -85,6 +85,12 @@ public class ScheduleActivity extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
+    }
+    
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
 

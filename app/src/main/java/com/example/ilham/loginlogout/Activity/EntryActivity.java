@@ -141,4 +141,10 @@ public class EntryActivity extends AppCompatActivity {
             return;
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        super.onBackPressed();
+        return true;
+    }
 }
