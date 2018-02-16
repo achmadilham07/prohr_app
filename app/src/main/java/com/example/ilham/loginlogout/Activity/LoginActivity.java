@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.ilham.loginlogout.Constant;
 import com.example.ilham.loginlogout.Message;
 import com.example.ilham.loginlogout.R;
@@ -87,9 +91,17 @@ public class LoginActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Email = email.getText().toString();
-                String Password = password.getText().toString();
-                findData(Email, Password);
+                if (!(TextUtils.isEmpty(email.getText()) || TextUtils.isEmpty(password.getText()))){
+                    String Email = email.getText().toString();
+                    String Password = password.getText().toString();
+                    findData(Email, Password);
+                }
+                else{
+                    YoYo.with(Techniques.Shake).playOn(email);
+                    YoYo.with(Techniques.Shake).playOn(password);
+                    Toast.makeText(getApplicationContext(), "Please fill the required fields", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -160,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "BACK again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
