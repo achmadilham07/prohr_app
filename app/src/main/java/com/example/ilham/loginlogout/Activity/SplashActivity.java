@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -49,5 +50,9 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
         timer.start();
+    }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(), "Wait a sec. :)", Toast.LENGTH_SHORT).show();
     }
 }
