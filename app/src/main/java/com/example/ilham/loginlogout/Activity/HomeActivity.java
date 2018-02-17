@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class HomeActivity extends Fragment {
 
     private RecyclerView recycleView;
+    private RecyclerView.LayoutManager layoutManager;
     private SlimAdapter adapter;
 
     private ArrayList arrayList = new ArrayList();
@@ -49,6 +50,8 @@ public class HomeActivity extends Fragment {
 
         recycleView = (RecyclerView) view.findViewById(R.id.recycleview);
         recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+//        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//        recycleView.setLayoutManager(layoutManager);
 
         adapter = SlimAdapter.create()
                 .register(R.layout.item_list, new SlimInjector<List>() {
@@ -71,16 +74,10 @@ public class HomeActivity extends Fragment {
                                                         startActivity(new Intent(getContext(), SalaryActivity.class));
                                                         break;
                                                     case "3":
-                                                        startActivity(new Intent(getContext(), LeaveActivity.class));
+                                                        startActivity(new Intent(getContext(), EntryActivity.class));
                                                         break;
                                                     case "4":
-                                                        startActivity(new Intent(getContext(), OvertimeActivity.class));
-                                                        break;
-                                                    case "6":
                                                         startActivity(new Intent(getContext(), ScheduleActivity.class));
-                                                        break;
-                                                    case "8":
-                                                        startActivity(new Intent(getContext(), EntryActivity.class));
                                                         break;
                                                     default:
                                                         Toast.makeText(getContext(), "" + data.getTitle(), Toast.LENGTH_LONG).show();
@@ -98,12 +95,13 @@ public class HomeActivity extends Fragment {
         // tambahkan obyek ke catatanArrayList
         arrayList.add(new List("1", "Presence", "Kehadiran", R.drawable.ic_email));
         arrayList.add(new List("2", "Salary", "Gaji", R.drawable.ic_email));
-        arrayList.add(new List("3", "Leave", "Cuti", R.drawable.ic_email));
-        arrayList.add(new List("4", "Overtime", "Lembur", R.drawable.ic_email));
-        arrayList.add(new List("5", "Claim", "Tuntutan", R.drawable.ic_email));
-        arrayList.add(new List("6", "Schedule", "Jadwal", R.drawable.ic_email));
-        arrayList.add(new List("7", "Loan & Installment", "Pinjaman dan Angsuran", R.drawable.ic_email));
-        arrayList.add(new List("8", "Entry", "Pengajuan", R.drawable.ic_email));
+        arrayList.add(new List("3", "Entry", "Pengajuan", R.drawable.ic_email));
+//        arrayList.add(new List("3", "Leave", "Cuti", R.drawable.ic_email));
+//        arrayList.add(new List("4", "Overtime", "Lembur", R.drawable.ic_email));
+//        arrayList.add(new List("5", "Claim", "Tuntutan", R.drawable.ic_email));
+        arrayList.add(new List("4", "Schedule", "Jadwal", R.drawable.ic_email));
+//        arrayList.add(new List("7", "Loan & Installment", "Pinjaman dan Angsuran", R.drawable.ic_email));
+
 
 //        // setting data ke adapter
         adapter.updateData(arrayList);

@@ -2,6 +2,7 @@ package com.example.ilham.loginlogout.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -118,6 +119,7 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
                                         viewkotak.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View view) {
                                                 Toast.makeText(getContext(), "" + data.getFullname(), Toast.LENGTH_SHORT).show();
+                                                Bundle bundle = new Bundle();
                                                 Intent i = new Intent(getContext(), ContactEmpViewActivity.class);
                                                 i.putExtra("fullname", data.getFullname());
                                                 i.putExtra("uname", data.getUname());
@@ -130,7 +132,12 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
                                                 i.putExtra("email", data.getEmail());
                                                 i.putExtra("position", data.getPosition());
                                                 i.putExtra("division", data.getDivision());
-                                                i.putExtra("image", contactimg.getId());
+
+                                                contactimg.buildDrawingCache();
+                                                Bitmap image = contactimg.getDrawingCache();
+                                                bundle.putParcelable("image", image);
+                                                i.putExtras(bundle);
+
 //                                                i.setType("image/*");
                                                 startActivity(i);
                                             }

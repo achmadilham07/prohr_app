@@ -1,7 +1,7 @@
 package com.example.ilham.loginlogout.Activity;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,7 @@ public class ContactEmpViewActivity extends AppCompatActivity {
     private TextView Fullname, Nickname, Birthday, PhoneNum, Address, Email, Position;
     private ImageView Image;
     private Toolbar toolbar;
+    private Bitmap bmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,8 @@ public class ContactEmpViewActivity extends AppCompatActivity {
         Address.setText("" + address + ", " + city + ", " + state + ", " + country);
         Nickname.setText(uname);
         Position.setText("" + position + " / " + division);
-        Image.setImageDrawable(Drawable.createFromPath((image)));
+//        Image.setImageDrawable(Drawable.createFromPath((image)));
+        Image.setImageBitmap(bmp);
     }
 
     private void initializeMaterialView() {
@@ -60,6 +62,7 @@ public class ContactEmpViewActivity extends AppCompatActivity {
         Nickname = (TextView) findViewById(R.id.contactemp_uname);
         Position = (TextView) findViewById(R.id.contactemp_position);
         Image = (ImageView) findViewById(R.id.contactemp_img);
+
     }
 
     private void initializeBundle() {
@@ -74,7 +77,8 @@ public class ContactEmpViewActivity extends AppCompatActivity {
         email = bundle.getString("email");
         position = bundle.getString("position");
         division = bundle.getString("division");
-        image = bundle.getParcelable("image");
+        bmp = bundle.getParcelable("image");
+//        image = bundle.getParcelable("image");
     }
 
     @Override
