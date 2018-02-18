@@ -14,6 +14,8 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -31,6 +33,7 @@ public class EntryActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FloatingActionButton btnFloat1, btnFloat2;
     private CardView cardView;
+    private Animation rotate_forward,rotate_backward;
     String[] Array = {"Leave", "Overtime", "Claim", "Loan & Installment"};
 
     @Override
@@ -53,6 +56,9 @@ public class EntryActivity extends AppCompatActivity {
         btnFloat1 = (FloatingActionButton) findViewById(R.id.entry_fab1);
         btnFloat2 = (FloatingActionButton) findViewById(R.id.entry_fab2);
 
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+
         ArrayAdapter adapter1 = new ArrayAdapter<>(this, R.layout.item_list_entry, Array);
         ListView listView = (ListView) findViewById(R.id.mobile_list);
         listView.setAdapter(adapter1);
@@ -74,14 +80,14 @@ public class EntryActivity extends AppCompatActivity {
         btnFloat1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ButtonPressed();
+                ButtonPressed1();
             }
         });
 
         btnFloat2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ButtonPressed();
+
             }
         });
 
@@ -143,6 +149,7 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     public void closeCardView() {
+        btnFloat1.startAnimation(rotate_backward);
         YoYo.with(Techniques.SlideOutDown).duration(500).playOn(cardView);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -152,7 +159,8 @@ public class EntryActivity extends AppCompatActivity {
         }, 500);
     }
 
-    public void ButtonPressed() {
+    public void ButtonPressed1() {
+        btnFloat1.startAnimation(rotate_forward);
         if (cardView.getVisibility() == View.GONE) {
             cardView.setVisibility(View.VISIBLE);
             YoYo.with(Techniques.SlideInUp).duration(500).playOn(cardView);
@@ -183,17 +191,16 @@ public class EntryActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        if (cardView.getVisibility() == View.VISIBLE) {
-            closeCardView();
-        } else {
-            onBackPressed();
-        }
+        super.onBackPressed();
         return true;
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        super.onBackPressed();
-        return true;
+    public void onBackPressed() {
+        if (cardView.getVisibility() == View.VISIBLE) {
+            closeCardView();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -47,6 +47,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:clickable="true"
+        android:scaleType="center"
         android:src="@drawable/ic_add"
         app:fabSize="normal" />
 
@@ -75,7 +76,9 @@
         android:layout_marginRight="15dp"
         android:layout_toStartOf="@id/fab_sheet"
         android:visibility="visible"
-        app:cardBackgroundColor="@color/cardview_light_background">
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,7 +88,7 @@
                 android:id="@+id/mobile_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"/>
+                android:layout_gravity="right" />
 
         </LinearLayout>
 
