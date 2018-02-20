@@ -1,9 +1,19 @@
 package com.example.ilham.loginlogout.Activity;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +23,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,38 +36,57 @@ public class ScheduleActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private CompactCalendarView compactCalendarView;
-    private TextView textView,textView2;
+    private TextView textView;
     private Calendar calendar;
+    private ListView listView;
+    private String mydate;
+    private FloatingActionButton Fbutton;
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM-yyyy", Locale.getDefault());
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final List<String> allevent = new ArrayList<>();
         calendar = Calendar.getInstance(Locale.getDefault());
         setContentView(R.layout.activity_schedule);
+
         compactCalendarView =(CompactCalendarView) findViewById(R.id.compactcalendar_view);
         textView = (TextView) findViewById(R.id.textView4);
-        textView2 = (TextView) findViewById(R.id.textView6);
-        textView.setText(dateFormatForMonth.format(calendar.getTime()));
+        listView = (ListView) findViewById(R.id.Mylst);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Fbutton = (FloatingActionButton) findViewById(R.id.entry_fab);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Schedule");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         //perlu koneksi ke database. Database berisi hari, bulan, tahun, dan isi evemt
-        addEvent(10,1,2018,"Test Coba Event"); // 11 Februari 2018
 
+        mydate = dateFormat.format(calendar.getTime());
+        textView.setText(dateFormatForMonth.format(calendar.getTime()));
+        final ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allevent);
+        listView.setAdapter(adapter);
+        addEvent(10,1,2018,"Test Coba Event"); // 11 Februari 2018
+        addEvent(10,1,2018,"Test Coba Event2"); // 11 Februari 2018
+        addEvent(10,1,2018,"Test Coba Event3"); // 11 Februari 2018
+        addEvent(13,1,2018,"Test Coba Event"); // 11 Februari 2018
+        addEvent(13,1,2018,"Test Coba Event2"); // 11 Februari 2018
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                textView2.setText(dateClicked.toString());
                 //menampilkan event..
                 List<Event> eventnya = compactCalendarView.getEvents(dateClicked);
-                if(eventnya.size() != 0)
-                    for(int i=0; i<eventnya.size(); i++)
-                        Toast.makeText(getApplicationContext(),eventnya.get(i).getData().toString(),Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getApplicationContext(),"Tidak ada event",Toast.LENGTH_SHORT).show();
+                mydate = dateFormat.format(dateClicked.getTime());
+                if(eventnya != null) {
+                    allevent.clear();
+                    if(eventnya.size() < 1)
+                        allevent.add("No Event This Day");
+                    for (Event event : eventnya) {
+                        allevent.add(event.getData().toString());
+                        //Toast.makeText(getApplicationContext(), event.getData().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -64,6 +94,34 @@ public class ScheduleActivity extends AppCompatActivity {
                 textView.setText(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(), adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Fbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addEvent(mydate);
+            }
+        });
+    }
+
+    private void addEvent(String date) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.item_event, null))
+        .setTitle(date)
+        .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        Dialog alert = builder.create();
+        alert.show();
     }
 
     private void addEvent(int DoM, int month, int year, String string) {
@@ -86,7 +144,7 @@ public class ScheduleActivity extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
     }
-    
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

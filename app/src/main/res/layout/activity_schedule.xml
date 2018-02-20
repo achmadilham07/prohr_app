@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,32 +10,57 @@
     <include
         layout="@layout/toolbar"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
+        android:layout_width="match_parent"
+        android:id="@+id/include" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/include"
+        android:background="@color/colorAccent"
+        android:text="TextView"
+        android:textColor="#fff"
+        android:textSize="24sp"
+        android:textStyle="normal|bold" />
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/compactcalendar_view"
         android:layout_width="fill_parent"
-        android:layout_height="205dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView4"
         app:compactCalendarBackgroundColor="#ffe95451"
         app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#ffbd5f5f"
+        app:compactCalendarOtherMonthDaysTextColor="#534c4c"
+        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="true"
         app:compactCalendarMultiEventIndicatorColor="#fff"
         app:compactCalendarTargetHeight="250dp"
         app:compactCalendarTextColor="#fff"
-        app:compactCalendarTextSize="12sp" />
+        app:compactCalendarTextSize="16sp" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/Mylst"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/compactcalendar_view" />
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/entry_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal" />
+
+</RelativeLayout>

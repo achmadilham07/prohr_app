@@ -8,7 +8,7 @@
     <string name="txt_btn_login">Already Have an Account?\nLogin!!</string>
     <string name="btn_link_signup">Not Registered ? Register Now !</string>
     <string name="title_activity_nav">NavActivity</string>
-
+    <string name="add">Add New</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
