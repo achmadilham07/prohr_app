@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,16 +39,24 @@ public class ScheduleActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CompactCalendarView compactCalendarView;
     private TextView textView;
-    private Calendar calendar;
+    private Calendar calendar,dateclick;
     private ListView listView;
-    private String mydate;
+    private Date mydate;
     private FloatingActionButton Fbutton;
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM-yyyy", Locale.getDefault());
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+    private SimpleDateFormat dayFormat = new SimpleDateFormat("d", Locale.getDefault());
+    private SimpleDateFormat monthFormat = new SimpleDateFormat("M", Locale.getDefault());
+    private SimpleDateFormat yearFormat = new SimpleDateFormat("y", Locale.getDefault());
+    private List<String> allevent;
+    private ArrayAdapter adapter;
+    private int day = 0;
+    private int month=0;
+    private int year=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final List<String> allevent = new ArrayList<>();
+        allevent = new ArrayList<>();
         calendar = Calendar.getInstance(Locale.getDefault());
         setContentView(R.layout.activity_schedule);
 
@@ -60,33 +70,24 @@ public class ScheduleActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Schedule");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        //perlu koneksi ke database. Database berisi hari, bulan, tahun, dan isi evemt
 
-        mydate = dateFormat.format(calendar.getTime());
+
+        mydate = calendar.getTime();
         textView.setText(dateFormatForMonth.format(calendar.getTime()));
-        final ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allevent);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allevent);
         listView.setAdapter(adapter);
+        //perlu koneksi ke database. Database berisi hari, bulan, tahun, dan isi evemt
         addEvent(10,1,2018,"Test Coba Event"); // 11 Februari 2018
         addEvent(10,1,2018,"Test Coba Event2"); // 11 Februari 2018
         addEvent(10,1,2018,"Test Coba Event3"); // 11 Februari 2018
-        addEvent(13,1,2018,"Test Coba Event"); // 11 Februari 2018
-        addEvent(13,1,2018,"Test Coba Event2"); // 11 Februari 2018
+        addEvent(13,1,2018,"Test Coba Event"); // 14 Februari 2018
+        addEvent(13,1,2018,"Test Coba Event2"); // 14 Februari 2018
+        showEvent(mydate);
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                //menampilkan event..
-                List<Event> eventnya = compactCalendarView.getEvents(dateClicked);
-                mydate = dateFormat.format(dateClicked.getTime());
-                if(eventnya != null) {
-                    allevent.clear();
-                    if(eventnya.size() < 1)
-                        allevent.add("No Event This Day");
-                    for (Event event : eventnya) {
-                        allevent.add(event.getData().toString());
-                        //Toast.makeText(getApplicationContext(), event.getData().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                    adapter.notifyDataSetChanged();
-                }
+                mydate = dateClicked;
+                showEvent(dateClicked);
             }
 
             @Override
@@ -104,26 +105,48 @@ public class ScheduleActivity extends AppCompatActivity {
         Fbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addEvent(mydate);
+                inputEvent(mydate);
             }
         });
     }
 
-    private void addEvent(String date) {
+    private void inputEvent(final Date date) {
+        String newdate = dateFormat.format(date.getTime());
+        month = Integer.parseInt(monthFormat.format(date.getTime())) - 1;
+        day = Integer.parseInt(dayFormat.format(date.getTime())) - 1;
+        year = Integer.parseInt(yearFormat.format(date.getTime()));
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.item_event, null))
-        .setTitle(date)
+        View mView = inflater.inflate(R.layout.item_event, null);
+        final TextInputEditText event_input = (TextInputEditText) mView.findViewById(R.id.event_input);
+        builder.setView(mView)
+        .setTitle(newdate)
         .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-
+                String setEvent = event_input.getText().toString();
+                addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
+                showEvent(date);
             }
         });
         Dialog alert = builder.create();
         alert.show();
     }
 
+    private void showEvent(Date date){
+        //menampilkan event..
+        List<Event> eventnya = compactCalendarView.getEvents(date);
+        if(eventnya != null) {
+            allevent.clear();
+            if(eventnya.size() < 1)
+                allevent.add("No Event This Day");
+            for (Event event : eventnya) {
+                allevent.add(event.getData().toString());
+                //Toast.makeText(getApplicationContext(), event.getData().toString(), Toast.LENGTH_SHORT).show();
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
     private void addEvent(int DoM, int month, int year, String string) {
         calendar.setTime(new Date());
         calendar.set(Calendar.DAY_OF_MONTH, 1);
