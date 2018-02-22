@@ -129,7 +129,7 @@ public class EntryActivity extends AppCompatActivity {
     private void leave() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.item_list_entry_leave, null))
+        builder.setView(inflater.inflate(R.layout.item_entry_leave, null))
                 .setTitle("Leave")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
