@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/appBar"
     android:layout_width="match_parent"
-    app:contentInsetLeft="0dp"
-    app:contentInsetStart="0dp"
-    app:contentInsetStartWithNavigation="0dp"
-    android:contentInsetLeft="0dp"
-    android:contentInsetStart="0dp"
-    android:contentInsetStartWithNavigation="0dp"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.Toolbar
@@ -17,12 +11,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:contentInsetLeft="0dp"
-        android:contentInsetStart="0dp"
-        android:contentInsetStartWithNavigation="0dp"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp"
         app:theme="@style/ToolbarStyle" />
 
 </android.support.design.widget.AppBarLayout>

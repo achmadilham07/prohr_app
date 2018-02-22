@@ -1,10 +1,12 @@
 package com.example.ilham.loginlogout.Activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,12 +51,15 @@ public class HomeActivity extends Fragment {
         getActivity().setTitle("Home");
 
         recycleView = (RecyclerView) view.findViewById(R.id.recycleview);
-        recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-//        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-//        recycleView.setLayoutManager(layoutManager);
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            recycleView.setLayoutManager(layoutManager);
+        } else {
+            recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        }
 
         adapter = SlimAdapter.create()
-                .register(R.layout.item_list, new SlimInjector<List>() {
+                .register(R.layout.item_list_home, new SlimInjector<List>() {
                     @Override
                     public void onInject(final List data, IViewInjector injector) {
                         injector.text(R.id.txtTitle, data.getTitle())

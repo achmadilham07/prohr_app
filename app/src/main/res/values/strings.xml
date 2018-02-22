@@ -36,11 +36,13 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+
     <string-array name="month_array">
         <item>January</item>
         <item>February</item>
         <item>March</item>
     </string-array>
+
     <string-array name="year_array">
         <item>2018</item>
         <item>2017</item>

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ilham.loginlogout.R;
 import com.example.ilham.loginlogout.SessionManager;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SessionManager session;
     private Toolbar toolbar;
     private TextView homeemail, homename;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,26 +71,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-//            super.onBackPressed();
-            exitDialog();
+        } else if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
         }
-    }
 
-    private void exitDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Mobile Office App")
-                .setMessage("Are you sure you want to exit?")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                        finish();
-                    }
-                });
-        Dialog alert = builder.create();
-        alert.setCanceledOnTouchOutside(false);
-        alert.show();
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
     private void logoutDialog() {

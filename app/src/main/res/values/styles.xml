@@ -9,14 +9,6 @@
         <!--<item name="colorControlNormal">#fff</item>-->
         <item name="drawerArrowStyle">@style/MyDrawerArrowToggle</item>
 
-        <item name="contentInsetLeft">0dp</item>
-        <item name="contentInsetStart">0dp</item>
-        <item name="contentInsetStartWithNavigation">0dp</item>
-
-        <item name="android:contentInsetLeft">0dp</item>
-        <item name="android:contentInsetStart">0dp</item>
-        <item name="android:contentInsetStartWithNavigation">0dp</item>
-
         <item name="elevation">0dp</item>
         <item name="android:titleTextColor">@android:color/white</item>
         <!--<item name="toolbarStyle">@style/ToolbarStyle</item>-->

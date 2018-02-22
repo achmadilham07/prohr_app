@@ -70,6 +70,15 @@ public class EntryActivity extends AppCompatActivity {
                     case 0:
                         leave();
                         break;
+                    case 1:
+                        overtime();
+                        break;
+                    case 2:
+                        claim();
+                        break;
+                    case 3:
+                        loan();
+                        break;
                     default:
                         Toast.makeText(getApplicationContext(), "" + Array[position], Toast.LENGTH_SHORT).show();
                         break;
@@ -124,6 +133,72 @@ public class EntryActivity extends AppCompatActivity {
         tabLayout.removeAllTabs();
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    private void loan() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.item_entry_loan, null))
+                .setTitle("Loan & Installment")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        Dialog alert = builder.create();
+        alert.show();
+    }
+
+    private void claim() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.item_entry_claim, null))
+                .setTitle("Claim")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        Dialog alert = builder.create();
+        alert.show();
+    }
+
+    private void overtime() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.item_entry_overtime, null))
+                .setTitle("Overtime")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        Dialog alert = builder.create();
+        alert.show();
     }
 
     private void leave() {
