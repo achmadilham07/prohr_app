@@ -125,7 +125,8 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 String setEvent = event_input.getText().toString();
-                addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
+                if (setEvent != null && !setEvent.isEmpty() && !setEvent.equals("null"))
+                    addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
                 showEvent(date);
             }
         });
