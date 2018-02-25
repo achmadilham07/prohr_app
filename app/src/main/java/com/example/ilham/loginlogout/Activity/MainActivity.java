@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ProfileActivity();
                 break;
             case R.id.nav_contact:
-                fragment = new ContactActivity();
+                fragment = new ContactEmpActivity();
                 break;
             case R.id.nav_about:
                 fragment = new AboutActivity();

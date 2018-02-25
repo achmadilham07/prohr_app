@@ -79,7 +79,9 @@
                         android:id="@+id/datefrom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25" />
+                        android:layout_weight="0.25"
+                        android:drawableRight="@drawable/ic_arrow_down"
+                        android:background="@null"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -94,7 +96,9 @@
                         android:id="@+id/dateto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25" />
+                        android:layout_weight="0.25"
+                        android:drawableRight="@drawable/ic_arrow_down"
+                        android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>

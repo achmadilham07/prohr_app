@@ -14,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.daimajia.swipe.SwipeLayout;
 import com.example.ilham.loginlogout.Constant;
 import com.example.ilham.loginlogout.ContactEmp;
 import com.example.ilham.loginlogout.R;
@@ -45,7 +47,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-
     Users users;
     View v;
     private Constant constant = new Constant();
@@ -55,12 +56,13 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
     private RecyclerView recycleView;
     private RecyclerView.LayoutManager layoutManager;
     private SlimAdapter adapter;
-    private SwipeRefreshLayout swipeLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private SharedPreferences.Editor editorContactEmp;
     private SharedPreferences prefContactEmp;
     private ImageView contactimg;
     private TextDrawable[] drawable;
-    List firstletter = new ArrayList<>();
+    private SwipeLayout swipeLayout;
+    private LinearLayout call_contact, email_contact;
     ColorGenerator generator = ColorGenerator.MATERIAL;
     int color;
 
@@ -78,6 +80,7 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getActivity().setTitle("Contact Employee");
         users = new Users(getContext());
         idBeacon = users.getId_beacon();
         uid = users.getUid();
@@ -90,13 +93,13 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recycleView.setLayoutManager(layoutManager);
 
-        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.contactEmp_swipe);
-        swipeLayout.setColorSchemeResources(
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.contactEmp_swipe);
+        swipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_blue_dark,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         adapter = SlimAdapter.create()
                 .register(R.layout.item_list_contact_emp, new SlimInjector<ContactEmp>() {
@@ -107,7 +110,28 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
                                 .text(R.id.contact_email, data.getEmail())
                                 .with(R.id.item, new IViewInjector.Action() {
                                     @Override
-                                    public void action(View viewkotak) {
+                                    public void action(final View viewkotak) {
+
+                                        swipeLayout = (SwipeLayout) viewkotak.findViewById(R.id.swipe);
+                                        swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+                                        swipeLayout.setClickToClose(true);
+//                                        swipeLayout.addDrag(SwipeLayout.DragEdge.Bottom, viewkotak.findViewById(R.id.rightSwipe));
+
+                                        call_contact = (LinearLayout) viewkotak.findViewById(R.id.call_emp);
+                                        call_contact.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Snackbar.make(viewkotak, "" + data.getPhoneNum(), Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        email_contact = (LinearLayout) viewkotak.findViewById(R.id.email_emp);
+                                        email_contact.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Snackbar.make(viewkotak, "" + data.getEmail(), Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                                         contactimg = (ImageView) viewkotak.findViewById(R.id.contact_img);
                                         color = generator.getRandomColor();
 
@@ -116,7 +140,8 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
                                         final TextDrawable drawable = TextDrawable.builder().buildRound(firstchar, color);
                                         contactimg.setImageDrawable(drawable);
 
-                                        viewkotak.setOnClickListener(new View.OnClickListener() {
+                                        LinearLayout viewContact = (LinearLayout) viewkotak.findViewById(R.id.view_contact);
+                                        viewContact.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View view) {
                                                 Toast.makeText(getContext(), "" + data.getFullname(), Toast.LENGTH_SHORT).show();
                                                 Bundle bundle = new Bundle();
@@ -150,11 +175,11 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
                 .attachTo(recycleView);
 
         loadData();
-        swipeLayout.setRefreshing(false);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void refreshContent() {
-        swipeLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(true);
 
         // setting uri
         Retrofit retrofit = new Retrofit.Builder()
@@ -193,7 +218,7 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                swipeLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);
                 Snackbar.make(getView(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
             }
         });
@@ -225,11 +250,11 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        swipeLayout.postDelayed(new Runnable() {
+        swipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
                 refreshContent();
-                swipeLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);
             }
         }, 2500);
     }

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +25,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -52,7 +50,7 @@ public class EntryActivity extends AppCompatActivity {
     int months;
     int days;
     boolean isFromButton1 = false;
-    private Animation rotate_forward,rotate_backward;
+    private Animation rotate_forward, rotate_backward;
     String[] Array = {"Leave", "Overtime", "Claim", "Loan & Installment"};
 
     @Override
@@ -75,8 +73,8 @@ public class EntryActivity extends AppCompatActivity {
         btnFloat1 = (FloatingActionButton) findViewById(R.id.entry_fab1);
         btnFloat2 = (FloatingActionButton) findViewById(R.id.entry_fab2);
 
-        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
 
         ArrayAdapter adapter1 = new ArrayAdapter<>(this, R.layout.item_list_entry, Array);
         ListView listView = (ListView) findViewById(R.id.mobile_list);
@@ -220,7 +218,7 @@ public class EntryActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("AL-","Hello");
+                Log.i("AL-", "Hello");
                 isFromButton1 = true;
                 setdate();
             }
@@ -252,7 +250,7 @@ public class EntryActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("AL-","Hello");
+                Log.i("AL-", "Hello");
                 isFromButton1 = true;
                 setdate();
             }
@@ -260,7 +258,7 @@ public class EntryActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("AL-","Hello");
+                Log.i("AL-", "Hello");
                 isFromButton1 = false;
                 setdate();
 
@@ -291,9 +289,9 @@ public class EntryActivity extends AppCompatActivity {
         }
     }
 
-    private void setdate(){
+    private void setdate() {
         DialogFragment dialogFragment = new DatePickerFragment();
-        dialogFragment.show(getFragmentManager(),"Date Picker");
+        dialogFragment.show(getFragmentManager(), "Date Picker");
     }
 
     private void animateFab(int position) {
@@ -332,19 +330,20 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ValidFragment")
-    public class DatePickerFragment extends DialogFragment implements  DatePickerDialog.OnDateSetListener {
+    public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog dpd = new DatePickerDialog(getActivity(),this,year,month,day);
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(), this, year, month, day);
             // Set hari ini hari minim
             dpd.getDatePicker().setMinDate(calendar.getTimeInMillis());
-            return  dpd;
+            return dpd;
         }
+
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
             Calendar cal = Calendar.getInstance();
