@@ -1,7 +1,6 @@
 package com.example.ilham.loginlogout.Activity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,13 +22,10 @@ import com.example.ilham.loginlogout.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,7 +35,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CompactCalendarView compactCalendarView;
     private TextView textView;
-    private Calendar calendar,dateclick;
+    private Calendar calendar;
     private ListView listView;
     private Date mydate;
     private FloatingActionButton Fbutton;
@@ -51,8 +47,10 @@ public class ScheduleActivity extends AppCompatActivity {
     private List<String> allevent;
     private ArrayAdapter adapter;
     private int day = 0;
-    private int month=0;
-    private int year=0;
+    private int month = 0;
+    private int year = 0;
+    private ImageButton previousMonth, nextMonth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +58,7 @@ public class ScheduleActivity extends AppCompatActivity {
         calendar = Calendar.getInstance(Locale.getDefault());
         setContentView(R.layout.activity_schedule);
 
-        compactCalendarView =(CompactCalendarView) findViewById(R.id.compactcalendar_view);
+        compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         textView = (TextView) findViewById(R.id.textView4);
         listView = (ListView) findViewById(R.id.Mylst);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,17 +69,32 @@ public class ScheduleActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
+        nextMonth = (ImageButton) findViewById(R.id.schedule_right);
+        previousMonth = (ImageButton) findViewById(R.id.schedule_left);
+        previousMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                compactCalendarView.showPreviousMonth();
+            }
+        });
+        nextMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                compactCalendarView.showNextMonth();
+            }
+        });
+
 
         mydate = calendar.getTime();
         textView.setText(dateFormatForMonth.format(calendar.getTime()));
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allevent);
         listView.setAdapter(adapter);
         //perlu koneksi ke database. Database berisi hari, bulan, tahun, dan isi evemt
-        addEvent(10,1,2018,"Test Coba Event"); // 11 Februari 2018
-        addEvent(10,1,2018,"Test Coba Event2"); // 11 Februari 2018
-        addEvent(10,1,2018,"Test Coba Event3"); // 11 Februari 2018
-        addEvent(13,1,2018,"Test Coba Event"); // 14 Februari 2018
-        addEvent(13,1,2018,"Test Coba Event2"); // 14 Februari 2018
+        addEvent(10, 1, 2018, "Test Coba Event"); // 11 Februari 2018
+        addEvent(10, 1, 2018, "Test Coba Event2"); // 11 Februari 2018
+        addEvent(10, 1, 2018, "Test Coba Event3"); // 11 Februari 2018
+        addEvent(13, 1, 2018, "Test Coba Event"); // 14 Februari 2018
+        addEvent(13, 1, 2018, "Test Coba Event2"); // 14 Februari 2018
         showEvent(mydate);
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -95,6 +108,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 textView.setText(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -120,25 +134,25 @@ public class ScheduleActivity extends AppCompatActivity {
         View mView = inflater.inflate(R.layout.item_event, null);
         final TextInputEditText event_input = (TextInputEditText) mView.findViewById(R.id.event_input);
         builder.setView(mView)
-        .setTitle(newdate)
-        .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                String setEvent = event_input.getText().toString();
-                addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
-                showEvent(date);
-            }
-        });
+                .setTitle(newdate)
+                .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        String setEvent = event_input.getText().toString();
+                        addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
+                        showEvent(date);
+                    }
+                });
         Dialog alert = builder.create();
         alert.show();
     }
 
-    private void showEvent(Date date){
+    private void showEvent(Date date) {
         //menampilkan event..
         List<Event> eventnya = compactCalendarView.getEvents(date);
-        if(eventnya != null) {
+        if (eventnya != null) {
             allevent.clear();
-            if(eventnya.size() < 1)
+            if (eventnya.size() < 1)
                 allevent.add("No Event This Day");
             for (Event event : eventnya) {
                 allevent.add(event.getData().toString());
@@ -147,6 +161,7 @@ public class ScheduleActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
     private void addEvent(int DoM, int month, int year, String string) {
         calendar.setTime(new Date());
         calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -161,7 +176,7 @@ public class ScheduleActivity extends AppCompatActivity {
         compactCalendarView.addEvent(events);
     }
 
-    private void DefaultTime (Calendar calendar) {
+    private void DefaultTime(Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
