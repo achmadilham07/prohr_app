@@ -1,17 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.ilham.loginlogout.Activity.AboutActivity">
+    android:padding="16dp"
+    tools:context="com.example.ilham.loginlogout.Activity.ChangePassActivity">
 
-    <TextView
-        android:id="@+id/changePass"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Change Pass"
-        android:textSize="30dp" />
-</LinearLayout>
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/current_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="Current password"
+            android:inputType="textPassword"
+            android:paddingBottom="20dp"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/new_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="New password"
+            android:inputType="textPassword"
+            android:paddingBottom="20dp"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/new_password_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="New password again"
+            android:inputType="textPassword"
+            android:paddingBottom="20dp"
+            android:textColor="#000" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="true"
+            android:textColor="@color/colorAccent"
+            android:layout_gravity="right"
+            android:id="@+id/apply_change_pass"
+            android:text="Apply" />
+    </LinearLayout>
+
+
+</ScrollView>

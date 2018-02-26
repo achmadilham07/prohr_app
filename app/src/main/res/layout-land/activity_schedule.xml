@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.ilham.loginlogout.Activity.ScheduleActivity">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_below="@id/include"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/linearLayout_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+
+                <ImageButton
+                    android:id="@+id/schedule_left"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center|start"
+                    android:background="@null"
+                    android:src="@drawable/ic_left" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+                <ImageButton
+                    android:id="@+id/schedule_right"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_gravity="right|end"
+                    android:background="@null"
+                    android:src="@drawable/ic_right" />
+            </android.support.design.widget.CoordinatorLayout>
+
+
+            <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/compactcalendar_view"
+                android:layout_width="fill_parent"
+                android:layout_height="250dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout_schedule"
+                app:compactCalendarBackgroundColor="#fff"
+                app:compactCalendarCurrentDayBackgroundColor="#666666"
+                app:compactCalendarCurrentDayTextColor="#fff"
+                app:compactCalendarCurrentSelectedDayBackgroundColor="#c4b4b4"
+                app:compactCalendarMultiEventIndicatorColor="#484646"
+                app:compactCalendarOtherMonthDaysTextColor="#534c4c"
+                app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="true"
+                app:compactCalendarTargetHeight="250dp"
+                app:compactCalendarTextColor="#000"
+                app:compactCalendarTextSize="16sp" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/Mylst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/entry_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal" />
+
+</RelativeLayout>

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav);
+        setContentView(R.layout.activity_main);
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homename.setText(name);
         homeemail.setText(email);
 
-        displaySelectedScreen(0);
+        if (savedInstanceState == null )
+            displaySelectedScreen(0);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
