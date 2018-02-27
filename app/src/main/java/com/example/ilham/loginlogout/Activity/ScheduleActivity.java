@@ -132,7 +132,7 @@ public class ScheduleActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View mView = inflater.inflate(R.layout.item_event, null);
-        final TextInputEditText event_input = (TextInputEditText) mView.findViewById(R.id.event_input);
+        final TextInputEditText event_input = (TextInputEditText) mView.findViewById(R.id.event_info);
         builder.setView(mView)
                 .setTitle(newdate)
                 .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
