@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private TextView homeemail, homename;
     boolean doubleBackToExitPressedOnce = false;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homeemail.setText(email);
 
         if (savedInstanceState == null )
-            displaySelectedScreen(0);
+            displaySelectedScreen(R.id.nav_home);
     }
 
     @Override
@@ -118,10 +120,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        switch (position){
+            case R.id.nav_change_pass:
+                getMenuInflater().inflate(R.menu.change_pass_apply, menu);
+                break;
+        }
+
+        return true;
+    }
+
+
     public boolean displaySelectedScreen(int item) {
         // Handle navigation view item clicks here.
 
         Fragment fragment = null;
+        position = item;
 
         //initializing the fragment object which is selected
         switch (item) {

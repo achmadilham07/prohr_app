@@ -58,15 +58,6 @@
             android:paddingBottom="20dp"
             android:textColor="#000" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="true"
-            android:textColor="@color/colorAccent"
-            android:layout_gravity="right"
-            android:id="@+id/apply_change_pass"
-            android:text="Apply" />
     </LinearLayout>
 
 

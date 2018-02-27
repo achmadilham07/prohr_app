@@ -13,42 +13,50 @@
         android:id="@+id/itemDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="20dp">
 
         <ImageView
             android:id="@+id/imageCard"
-            android:padding="8dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded"/>
+            android:background="@drawable/rounded"
+            android:padding="8dp" />
 
-
-        <TextView
-            android:id="@+id/txtTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Title"
-            android:textAlignment="center"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="10dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="0.1"
-            android:background="#ededed" />
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtCaption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:text="Keterangan Caption"
-            android:textAlignment="center"
-            android:textSize="13dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="0.1"
+                android:background="#ededed" />
+
+            <TextView
+                android:id="@+id/txtCaption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:text="Keterangan Caption"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

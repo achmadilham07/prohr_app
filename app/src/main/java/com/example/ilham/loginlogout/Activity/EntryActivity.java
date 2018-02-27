@@ -42,7 +42,7 @@ public class EntryActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private Toolbar toolbar;
-    private FloatingActionButton btnFloat1, btnFloat2;
+    private FloatingActionButton btnFloat1;
     private CardView cardView;
     private Calendar calendar;
     private Button button1, button2;
@@ -71,7 +71,6 @@ public class EntryActivity extends AppCompatActivity {
         cardView = (CardView) findViewById(R.id.fab_sheet);
 
         btnFloat1 = (FloatingActionButton) findViewById(R.id.entry_fab1);
-        btnFloat2 = (FloatingActionButton) findViewById(R.id.entry_fab2);
 
         rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
@@ -107,13 +106,6 @@ public class EntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ButtonPressed1();
-            }
-        });
-
-        btnFloat2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 
@@ -298,19 +290,13 @@ public class EntryActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 btnFloat1.show();
-                btnFloat2.hide();
                 cardView.setVisibility(View.GONE);
                 break;
             case 1:
-                btnFloat2.show();
                 btnFloat1.hide();
                 cardView.setVisibility(View.GONE);
                 break;
 
-            default:
-                btnFloat1.show();
-                btnFloat2.hide();
-                break;
         }
     }
 
