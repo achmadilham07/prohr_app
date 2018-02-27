@@ -1,14 +1,19 @@
 package com.example.ilham.loginlogout.Activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -41,10 +46,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private Constant constant = new Constant();
     private EditText email, password;
-    private TextView regist;
+    private TextView regist, forgotPassword;
     private Button submit;
     boolean doubleBackToExitPressedOnce = false;
-    private CheckBox check;
+
 
     SessionManager session;
     Users users;
@@ -64,15 +69,11 @@ public class LoginActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.emailLogin);
         password = (EditText) findViewById(R.id.passwordLogin);
 
-        check = (CheckBox) findViewById(R.id.checkBox);
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        forgotPassword = (TextView) findViewById(R.id.checkBox);
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                } else {
-                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }
+            public void onClick(View view) {
+                requestNewPassword();
             }
         });
 
@@ -96,6 +97,44 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void requestNewPassword() {
+        LayoutInflater inflater = getLayoutInflater();
+        final View mView = inflater.inflate(R.layout.item_requestpassword, null);
+        final TextInputEditText parameter = (TextInputEditText) mView.findViewById(R.id.input_parameter);
+        final AlertDialog builder = new AlertDialog.Builder(this)
+                .setTitle("Forgot Password")
+                .setPositiveButton(android.R.string.yes, null)
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+
+        builder.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button buttonPositive = builder.getButton(AlertDialog.BUTTON_POSITIVE);
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!parameter.getText().toString().isEmpty()) {
+                            String Name = parameter.getText().toString();
+                            // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
+                            builder.dismiss(); //close builder(dialog)
+                            Toast.makeText(getApplicationContext(), "Please Check your Email", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        builder.setView(mView);
+        builder.show();
     }
 
     private void findData(final String email, final String password) {
