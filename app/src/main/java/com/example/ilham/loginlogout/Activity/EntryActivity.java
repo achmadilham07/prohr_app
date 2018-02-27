@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import com.example.ilham.loginlogout.R;
 import com.example.ilham.loginlogout.ViewPagerAdapter;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -46,12 +48,11 @@ public class EntryActivity extends AppCompatActivity {
     private CardView cardView;
     private Calendar calendar;
     private Button button1, button2;
-    int years;
-    int months;
-    int days;
-    boolean isFromButton1 = false;
+    boolean isFromButton1 = false, gooddate, datepressed = false;
     private Animation rotate_forward, rotate_backward;
     String[] Array = {"Leave", "Overtime", "Claim", "Loan & Installment"};
+    private Calendar fromDate;
+    private Calendar toDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,14 +200,12 @@ public class EntryActivity extends AppCompatActivity {
     private void overtime() {
         LayoutInflater inflater = getLayoutInflater();
         final View mView = inflater.inflate(R.layout.item_entry_overtime, null);
+        final TextInputEditText name = (TextInputEditText) mView.findViewById(R.id.overtime_name);
+        final TextInputEditText division = (TextInputEditText) mView.findViewById(R.id.overtime_division);
+        final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.overtime_info);
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle("Overtime")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                })
+                .setPositiveButton(android.R.string.yes, null)
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -214,6 +213,32 @@ public class EntryActivity extends AppCompatActivity {
                     }
                 })
                 .create();
+
+        builder.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button buttonPositive = builder.getButton(AlertDialog.BUTTON_POSITIVE);
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!name.getText().toString().isEmpty() //wajib diisi
+                                && !division.getText().toString().isEmpty()
+                                && !information.getText().toString().isEmpty()
+                                && !button1.getText().toString().isEmpty()) {
+                            String Name = name.getText().toString();
+                            String Division = division.getText().toString();
+                            String Information = information.getText().toString();
+                            String Date = button1.getText().toString();
+                            Log.i("AL-", Name+" "+Division+" "+Information+" "+Date);
+                            // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
+                            builder.dismiss(); //close builder(dialog)
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         button1 = (Button) mView.findViewById(R.id.overtime_date);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,23 +253,54 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     private void leave() {
-        LayoutInflater inflater = getLayoutInflater();
+        final LayoutInflater inflater = getLayoutInflater();
         final View mView = inflater.inflate(R.layout.item_entry_leave, null);
+        final TextInputEditText name = (TextInputEditText) mView.findViewById(R.id.leave_name);
+        final TextInputEditText division = (TextInputEditText) mView.findViewById(R.id.leave_division);
+        final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.leave_info);
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle("Leave")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                })
+                .setPositiveButton(android.R.string.yes, null) //di-set biar gak auto close
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
+                    public void onClick(DialogInterface dialog, int which) {// diisi kosong aja
                     }
                 })
                 .create();
+        builder.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button buttonPositive = builder.getButton(AlertDialog.BUTTON_POSITIVE);
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gooddate = true;
+                        if(datepressed && (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0)){
+                            Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
+                            gooddate = false;
+                        }
+                        if (!name.getText().toString().isEmpty() //wajib diisi
+                                && !division.getText().toString().isEmpty()
+                                && !information.getText().toString().isEmpty()
+                                && !button1.getText().toString().isEmpty()
+                                && !button2.getText().toString().isEmpty()
+                                && gooddate) {
+                            String Name = name.getText().toString();
+                            String Division = division.getText().toString();
+                            String Information = information.getText().toString();
+                            String DateFrom = button1.getText().toString();
+                            String DateTo = button2.getText().toString();
+                            Log.i("AL-", Name+" "+Division+" "+Information+" "+DateFrom+" "+DateTo);
+                            // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
+                            builder.dismiss(); //close builder(dialog)
+                        }
+                        else
+                            if(gooddate)
+                                Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         button1 = (Button) mView.findViewById(R.id.datefrom);
         button2 = (Button) mView.findViewById(R.id.dateto);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -350,16 +406,20 @@ public class EntryActivity extends AppCompatActivity {
             cal.setTimeInMillis(0);
             cal.set(year, month, day, 0, 0, 0);
             Date chosenDate = cal.getTime();
-            DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+            DateFormat df = new SimpleDateFormat("d-M-y");
             String formattedDate = df.format(chosenDate);
             Log.i("AL-", formattedDate);
-            years = year;
-            months = month;
-            days = day;
-            if (isFromButton1)
+            datepressed = true;
+            if (isFromButton1){
                 button1.setText(formattedDate);
-            else
+                fromDate = cal;
+            }
+
+            else{
                 button2.setText(formattedDate);
+                toDate = cal;
+            }
+
         }
     }
 }

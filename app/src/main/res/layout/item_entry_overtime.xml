@@ -30,7 +30,7 @@
                     android:textSize="15dp" />
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/leave_name"
+                    android:id="@+id/overtime_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Your Name"
@@ -50,7 +50,7 @@
                     android:textSize="15dp" />
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/leave_division"
+                    android:id="@+id/overtime_division"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Your Division"
@@ -99,7 +99,7 @@
                     android:textSize="15dp" />
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/leave_info"
+                    android:id="@+id/overtime_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"
