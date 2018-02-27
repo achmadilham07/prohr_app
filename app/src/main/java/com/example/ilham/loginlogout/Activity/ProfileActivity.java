@@ -2,6 +2,7 @@ package com.example.ilham.loginlogout.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,14 @@ public class ProfileActivity extends Fragment {
 
     private TextView uname, fullname, birthday, phoneNum, email, address, city, state, country;
     Users users;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         return inflater.inflate(R.layout.activity_profile, container, false);
+
     }
 
 
@@ -34,9 +36,9 @@ public class ProfileActivity extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Profile");
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.presence_swiperefresh);
 
         users = new Users(getActivity().getApplicationContext());
-
         uname = (TextView) view.findViewById(R.id.profile_name);
         fullname = (TextView) view.findViewById(R.id.profile_fullName);
         birthday = (TextView) view.findViewById(R.id.profile_birthDay);
@@ -66,6 +68,10 @@ public class ProfileActivity extends Fragment {
         city.setText(cekCity);
         state.setText(cekState);
         country.setText(cekCountry);
+    }
+    public void onStop (){
+        super.onStop();
+        swipeRefreshLayout.setEnabled(false);
     }
 /*
     private void initialize() {

@@ -258,4 +258,9 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
             }
         }, 2500);
     }
+
+    public void onStop (){
+        super.onStop();
+        swipeRefreshLayout.setEnabled(false);
+    }
 }
