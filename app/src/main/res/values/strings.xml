@@ -49,4 +49,14 @@
         <item>2016</item>
     </string-array>
 
+    <string-array name="cuti">
+        <item>Cuti Tahunan</item>
+        <item>Cuti Melahirkan</item>
+        <item>Cuti Bersama</item>
+        <item>Cuti Hamil</item>
+        <item>Cuti Sakit</item>
+        <item>Cuti Penting</item>
+        <item>Cuti Besar</item>
+    </string-array>
+
 </resources>
