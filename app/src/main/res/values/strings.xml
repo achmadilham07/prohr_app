@@ -49,8 +49,6 @@
         <item>2016</item>
     </string-array>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     <string-array name="cuti">
         <item>Cuti Tahunan</item>
         <item>Cuti Melahirkan</item>
@@ -71,8 +69,4 @@
         <item>Lain-lainnya</item>
     </string-array>
 
-=======
->>>>>>> parent of 99bc055... Modify leave and overtime
-=======
->>>>>>> parent of 99bc055... Modify leave and overtime
 </resources>
