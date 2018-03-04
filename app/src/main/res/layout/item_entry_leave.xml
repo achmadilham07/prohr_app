@@ -19,7 +19,47 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="15dp" />
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/leave_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your Name"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Division"
+                    android:textSize="15dp" />
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/leave_division"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your Division"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="10dp">
 
@@ -40,8 +80,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.25"
-                        android:background="@null"
-                        android:drawableRight="@drawable/ic_arrow_down" />
+                        android:drawableRight="@drawable/ic_arrow_down"
+                        android:background="@null"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -57,29 +97,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.25"
-                        android:background="@null"
-                        android:drawableRight="@drawable/ic_arrow_down" />
+                        android:drawableRight="@drawable/ic_arrow_down"
+                        android:background="@null"/>
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Jenis Cuti"
-                    android:textSize="15dp" />
-
-                <Spinner
-                    android:id="@+id/leave_cuti"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/cuti" />
 
             </LinearLayout>
 
