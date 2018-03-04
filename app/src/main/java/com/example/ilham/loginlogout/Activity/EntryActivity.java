@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,8 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -37,6 +34,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.ilham.loginlogout.R;
 import com.example.ilham.loginlogout.ViewPagerAdapter;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,11 +48,9 @@ public class EntryActivity extends AppCompatActivity {
     private FloatingActionButton btnFloat1;
     private CardView cardView;
     private Calendar calendar;
-    private Button button1, button2, button3;
     boolean isFromButton1 = false, gooddate, datepressed = false;
     private Animation rotate_forward, rotate_backward;
     String[] Array = {"Leave", "Overtime", "Claim", "Loan & Installment"};
-    private String[] cuti_arr = {};
     private Calendar fromDate;
     private Calendar toDate;
 
@@ -215,16 +211,8 @@ public class EntryActivity extends AppCompatActivity {
                 buttonPositive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        if (!information.getText().toString().isEmpty()
-                                && !button1.getText().toString().isEmpty()
-                                && !button2.getText().toString().isEmpty()
-                                && !button3.getText().toString().isEmpty()) {
                             String Information = information.getText().toString();
                             String Date = button1.getText().toString();
-                            String From = button2.getText().toString();
-                            String To = button3.getText().toString();
-                            Log.i("AL-", Information+" "+Date+" "+From+" "+To);
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
                         }
@@ -235,28 +223,12 @@ public class EntryActivity extends AppCompatActivity {
             }
         });
         button1 = (Button) mView.findViewById(R.id.overtime_date);
-        button2 = (Button) mView.findViewById(R.id.overtime_from);
-        button3 = (Button) mView.findViewById(R.id.overtime_to);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("AL-", "Hello");
                 isFromButton1 = true;
                 setdate();
-            }
-        });
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isFromButton1 = true;
-                setTime();
-            }
-        });
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isFromButton1 = false;
-                setTime();
             }
         });
         builder.setView(mView);
@@ -266,7 +238,6 @@ public class EntryActivity extends AppCompatActivity {
     private void leave() {
         final LayoutInflater inflater = getLayoutInflater();
         final View mView = inflater.inflate(R.layout.item_entry_leave, null);
-        final Spinner spinner = (Spinner) mView.findViewById(R.id.leave_cuti);
         final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.leave_info);
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle("Leave")
@@ -289,16 +260,12 @@ public class EntryActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
                             gooddate = false;
                         }
-                        if (!information.getText().toString().isEmpty()
                                 && !button1.getText().toString().isEmpty()
                                 && !button2.getText().toString().isEmpty()
                                 && gooddate) {
-
                             String Information = information.getText().toString();
                             String DateFrom = button1.getText().toString();
-                            String JenisCuti = spinner.getSelectedItem().toString();
                             String DateTo = button2.getText().toString();
-                            Log.i("AL-", Information+" "+DateFrom+" "+DateTo+" "+JenisCuti);
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
                         }
@@ -311,7 +278,6 @@ public class EntryActivity extends AppCompatActivity {
         });
         button1 = (Button) mView.findViewById(R.id.datefrom);
         button2 = (Button) mView.findViewById(R.id.dateto);
-
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -357,11 +323,6 @@ public class EntryActivity extends AppCompatActivity {
     private void setdate() {
         DialogFragment dialogFragment = new DatePickerFragment();
         dialogFragment.show(getFragmentManager(), "Date Picker");
-    }
-
-    private void setTime() {
-        DialogFragment dialogFragment = new TimePickerFragment();
-        dialogFragment.show(getFragmentManager(), "Time Picker");
     }
 
     private void animateFab(int position) {
@@ -414,7 +375,6 @@ public class EntryActivity extends AppCompatActivity {
             cal.setTimeInMillis(0);
             cal.set(year, month, day, 0, 0, 0);
             Date chosenDate = cal.getTime();
-            SimpleDateFormat df = new SimpleDateFormat("d-M-y");
             String formattedDate = df.format(chosenDate);
             Log.i("AL-", formattedDate);
             datepressed = true;
@@ -428,40 +388,6 @@ public class EntryActivity extends AppCompatActivity {
                 toDate = cal;
             }
 
-        }
-    }
-
-    @SuppressLint("ValidFragment")
-    public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState)
-        {
-            // use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
-        }
-
-        @Override
-        public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(0);
-            c.set(Calendar.HOUR_OF_DAY, hour);
-            c.set(Calendar.MINUTE, minute);
-            Date chosenDate = c.getTime();
-            SimpleDateFormat df = new SimpleDateFormat("kk:mm");
-            String formattedDate = df.format(chosenDate);
-            Log.i("AL-", formattedDate);
-            if (isFromButton1){
-                button2.setText(formattedDate);
-            }
-
-            else{
-                button3.setText(formattedDate);
-            }
         }
     }
 }
