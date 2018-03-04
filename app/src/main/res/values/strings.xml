@@ -57,6 +57,16 @@
         <item>Cuti Sakit</item>
         <item>Cuti Penting</item>
         <item>Cuti Besar</item>
+        <item>Lain-lainnya</item>
+    </string-array>
+
+    <string-array name="ijin">
+        <item>Datang Terlambat</item>
+        <item>Urusan Keluarga</item>
+        <item>Pulang Lebih Awal</item>
+        <item>Tidak Masuk</item>
+        <item>Sakit</item>
+        <item>Lain-lainnya</item>
     </string-array>
 
 </resources>
