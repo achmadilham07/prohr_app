@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -81,6 +82,8 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().setTitle("Contact Employee");
+        setHasOptionsMenu(true);
+
         users = new Users(getContext());
         idBeacon = users.getId_beacon();
         uid = users.getUid();
@@ -262,5 +265,24 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
     public void onStop (){
         super.onStop();
         swipeRefreshLayout.setEnabled(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.contact_search:
+                Snackbar.make(getView(),"Search", Snackbar.LENGTH_SHORT).show();
+                break;
+            case R.id.contact_export:
+                Snackbar.make(getView(),"Export", Snackbar.LENGTH_SHORT).show();
+                break;
+            case R.id.contact_sort_by:
+                Snackbar.make(getView(),"Sort by", Snackbar.LENGTH_SHORT).show();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

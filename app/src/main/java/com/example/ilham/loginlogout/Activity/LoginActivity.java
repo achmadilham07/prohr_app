@@ -10,15 +10,9 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,8 +39,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
 
     private Constant constant = new Constant();
-    private EditText email, password;
-    private TextView regist, forgotPassword;
+    private TextInputEditText email, password;
+    private TextView forgotPassword;
     private Button submit;
     boolean doubleBackToExitPressedOnce = false;
 
@@ -66,8 +60,8 @@ public class LoginActivity extends AppCompatActivity {
 
         users = new Users(getApplicationContext());
 
-        email = (EditText) findViewById(R.id.emailLogin);
-        password = (EditText) findViewById(R.id.passwordLogin);
+        email = (TextInputEditText) findViewById(R.id.emailLogin);
+        password = (TextInputEditText) findViewById(R.id.passwordLogin);
 
         forgotPassword = (TextView) findViewById(R.id.checkBox);
         forgotPassword.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        regist = (TextView) findViewById(R.id.clickRegist);
 
         submit = (Button) findViewById(R.id.submitLogin);
         submit.setOnClickListener(new View.OnClickListener() {

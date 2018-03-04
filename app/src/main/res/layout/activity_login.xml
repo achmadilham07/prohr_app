@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginLeft="40dp"
     android:layout_marginRight="40dp"
@@ -20,11 +21,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:hint="Email"
             android:id="@+id/emailLogin"
+            android:paddingRight="15dp"
             android:drawableRight="@drawable/ic_email"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
@@ -36,12 +39,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleDrawable="@drawable/ic_visibility_on"
         android:layout_height="wrap_content">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:hint="Password"
             android:id="@+id/passwordLogin"
-            android:drawableRight="@drawable/ic_key"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -62,18 +66,7 @@
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"/>
-
-    <TextView
         android:layout_marginTop="20dp"
-        android:textSize="18dp"
-        android:textAlignment="center"
-        android:id="@+id/clickRegist"
-        android:clickable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_link_signup" />
-
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

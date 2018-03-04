@@ -1,9 +1,12 @@
 package com.example.ilham.loginlogout.Activity;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ public class ProfileActivity extends Fragment {
     private TextView uname, fullname, birthday, phoneNum, email, address, city, state, country;
     Users users;
     private SwipeRefreshLayout swipeRefreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,6 +40,8 @@ public class ProfileActivity extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Profile");
+        setHasOptionsMenu(true);
+
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.presence_swiperefresh);
 
         users = new Users(getActivity().getApplicationContext());
@@ -57,7 +63,7 @@ public class ProfileActivity extends Fragment {
         String cekAddress = users.getAddress();
         String cekCity = users.getCity();
         String cekState = users.getState();
-        String cekCountry= users.getCountry();
+        String cekCountry = users.getCountry();
 
         uname.setText(cekUname);
         fullname.setText(cekFullname);
@@ -69,10 +75,28 @@ public class ProfileActivity extends Fragment {
         state.setText(cekState);
         country.setText(cekCountry);
     }
-    public void onStop (){
+
+    public void onStop() {
         super.onStop();
         swipeRefreshLayout.setEnabled(false);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.profile_edit:
+                Snackbar.make(getView(), "Edit", Snackbar.LENGTH_SHORT).show();
+                break;
+            case R.id.profile_share:
+                Snackbar.make(getView(), "Share", Snackbar.LENGTH_SHORT).show();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 /*
     private void initialize() {
         uname.setText(users.getUname());

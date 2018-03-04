@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -49,6 +51,7 @@ public class HomeActivity extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Home");
+        setHasOptionsMenu(true);
 
         recycleView = (RecyclerView) view.findViewById(R.id.recycleview);
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -101,16 +104,24 @@ public class HomeActivity extends Fragment {
         arrayList.add(new List("1", "Presence", "Kehadiran", R.drawable.ic_email));
         arrayList.add(new List("2", "Salary", "Gaji", R.drawable.ic_email));
         arrayList.add(new List("3", "Entry", "Pengajuan", R.drawable.ic_email));
-//        arrayList.add(new List("3", "Leave", "Cuti", R.drawable.ic_email));
-//        arrayList.add(new List("4", "Overtime", "Lembur", R.drawable.ic_email));
-//        arrayList.add(new List("5", "Claim", "Tuntutan", R.drawable.ic_email));
         arrayList.add(new List("4", "Schedule", "Jadwal", R.drawable.ic_email));
-//        arrayList.add(new List("7", "Loan & Installment", "Pinjaman dan Angsuran", R.drawable.ic_email));
+        arrayList.add(new List("5", "History", "Riwayat", R.drawable.ic_email));
 
-
-//        // setting data ke adapter
+        // setting data ke adapter
         adapter.updateData(arrayList);
-//        // ketika ada perubahan data adapter akan diset ulang
+        // ketika ada perubahan data adapter akan diset ulang
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.home_setting) {
+            Snackbar.make(getView(),"Setting", Snackbar.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

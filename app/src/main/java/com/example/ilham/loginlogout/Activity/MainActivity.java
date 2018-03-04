@@ -65,8 +65,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homename.setText(name);
         homeemail.setText(email);
 
-        if (savedInstanceState == null )
+        if (savedInstanceState == null)
             displaySelectedScreen(R.id.nav_home);
+        else
+            position = savedInstanceState.getInt("position");
     }
 
     @Override
@@ -123,9 +125,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        switch (position){
+        switch (position) {
+            case R.id.nav_home:
+                getMenuInflater().inflate(R.menu.home_more, menu);
+                break;
+            case R.id.nav_contact:
+                getMenuInflater().inflate(R.menu.contact_more, menu);
+                break;
+            case R.id.nav_profile:
+                getMenuInflater().inflate(R.menu.profile_more, menu);
+                break;
             case R.id.nav_change_pass:
-                getMenuInflater().inflate(R.menu.change_pass_apply, menu);
+                getMenuInflater().inflate(R.menu.change_pass_more, menu);
                 break;
         }
 
@@ -177,6 +188,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("position", position);
     }
 
 }

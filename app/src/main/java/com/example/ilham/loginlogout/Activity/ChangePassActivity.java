@@ -44,7 +44,7 @@ public class ChangePassActivity extends Fragment {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.actionUpdate) {
+        if (id == R.id.change_pass_apply) {
             Snackbar.make(getView(),"Apply", Snackbar.LENGTH_SHORT).show();
             return true;
         }

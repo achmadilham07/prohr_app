@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/presence_swiperefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -25,378 +24,385 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/presence_swiperefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_card"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="News Flash"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="13dp"
-                        android:layout_weight="0.1"
-                        android:background="#ededed" />
+                    android:layout_margin="@dimen/margin_card"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Full Name"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                            android:layout_marginBottom="5dp"
+                            android:text="News Flash"
+                            android:textSize="15dp" />
 
-                        <TextView
-                            android:id="@+id/profile_fullName"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="13dp"
+                            android:layout_weight="0.1"
+                            android:background="#ededed" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="full name" />
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Full Name"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_fullName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="full name" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Birth Day"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_birthDay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="birth day" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Phone Number"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_phoneNum"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="phone number" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Email"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="email" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Birth Day"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:id="@+id/profile_birthDay"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="birth day" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Phone Number"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-                        <TextView
-                            android:id="@+id/profile_phoneNum"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="phone number" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Email"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-                        <TextView
-                            android:id="@+id/profile_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="email" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_card"
-                android:layout_marginLeft="@dimen/margin_card"
-                android:layout_marginRight="@dimen/margin_card"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="Where You Live"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="13dp"
-                        android:layout_weight="0.1"
-                        android:background="#ededed" />
+                    android:layout_marginBottom="@dimen/margin_card"
+                    android:layout_marginLeft="@dimen/margin_card"
+                    android:layout_marginRight="@dimen/margin_card"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Address"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                            android:layout_marginBottom="5dp"
+                            android:text="Where You Live"
+                            android:textSize="15dp" />
 
-                        <TextView
-                            android:id="@+id/profile_address"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="13dp"
+                            android:layout_weight="0.1"
+                            android:background="#ededed" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="address" />
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Address"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="address" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="City"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_city"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="city" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="State"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_state"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="state" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Country"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_country"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="country" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="City"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-                        <TextView
-                            android:id="@+id/profile_city"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="city" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="State"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-                        <TextView
-                            android:id="@+id/profile_state"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="state" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Country"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-                        <TextView
-                            android:id="@+id/profile_country"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="country" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_card"
-                android:layout_marginLeft="@dimen/margin_card"
-                android:layout_marginRight="@dimen/margin_card"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="Your Position"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="13dp"
-                        android:layout_weight="0.1"
-                        android:background="#ededed" />
+                    android:layout_marginBottom="@dimen/margin_card"
+                    android:layout_marginLeft="@dimen/margin_card"
+                    android:layout_marginRight="@dimen/margin_card"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="#Badge / AC-ID"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                            android:layout_marginBottom="5dp"
+                            android:text="Your Position"
+                            android:textSize="15dp" />
 
-                        <TextView
-                            android:id="@+id/profile_badge"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="13dp"
+                            android:layout_weight="0.1"
+                            android:background="#ededed" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="badge" />
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="#Badge / AC-ID"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_badge"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="badge" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Your Workbase"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_workbase"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="workbase" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Your Department"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_department"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="department" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_text"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:text="Your Manager"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                            <TextView
+                                android:id="@+id/profile_manager"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:text="manager" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
+            </LinearLayout>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Your Workbase"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        </ScrollView>
 
-                        <TextView
-                            android:id="@+id/profile_workbase"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="workbase" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Your Department"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-                        <TextView
-                            android:id="@+id/profile_department"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="department" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_text"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.62"
-                            android:text="Your Manager"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-                        <TextView
-                            android:id="@+id/profile_manager"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.38"
-                            android:text="manager" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
-    </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

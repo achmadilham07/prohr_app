@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LoginLogout - Copy.iml" filepath="$PROJECT_DIR$/LoginLogout - Copy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/prohr_app.iml" filepath="$PROJECT_DIR$/prohr_app.iml" />
     </modules>
   </component>
 </project>
