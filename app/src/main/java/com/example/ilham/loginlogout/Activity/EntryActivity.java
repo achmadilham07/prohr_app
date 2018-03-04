@@ -26,7 +26,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+<<<<<<< HEAD
 import android.widget.Spinner;
+=======
+>>>>>>> parent of 99bc055... Modify leave and overtime
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -48,11 +51,18 @@ public class EntryActivity extends AppCompatActivity {
     private FloatingActionButton btnFloat1;
     private CardView cardView;
     private Calendar calendar;
+<<<<<<< HEAD
     private Spinner spinner_type;
     private Button button1, button2;
     boolean isFromButton1 = false, gooddate, datepressed = false;
     private Animation rotate_forward, rotate_backward;
     String[] Array = {"Permit", "Leave", "Overtime", "Claim", "Loan & Installment"};
+=======
+    private Button button1, button2;
+    boolean isFromButton1 = false, gooddate, datepressed = false;
+    private Animation rotate_forward, rotate_backward;
+    String[] Array = {"Leave", "Overtime", "Claim", "Loan & Installment"};
+>>>>>>> parent of 99bc055... Modify leave and overtime
     private Calendar fromDate;
     private Calendar toDate;
 
@@ -264,6 +274,8 @@ public class EntryActivity extends AppCompatActivity {
     private void overtime() {
         LayoutInflater inflater = getLayoutInflater();
         final View mView = inflater.inflate(R.layout.item_entry_overtime, null);
+        final TextInputEditText name = (TextInputEditText) mView.findViewById(R.id.overtime_name);
+        final TextInputEditText division = (TextInputEditText) mView.findViewById(R.id.overtime_division);
         final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.overtime_info);
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle("Overtime")
@@ -283,11 +295,23 @@ public class EntryActivity extends AppCompatActivity {
                 buttonPositive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+<<<<<<< HEAD
                         if (!information.getText().toString().isEmpty()
                                 && !button1.getText().toString().isEmpty()) {
                             String Information = information.getText().toString();
                             String Date = button1.getText().toString();
                             Log.i("AL-", Information + " " + Date);
+=======
+                        if (!name.getText().toString().isEmpty() //wajib diisi
+                                && !division.getText().toString().isEmpty()
+                                && !information.getText().toString().isEmpty()
+                                && !button1.getText().toString().isEmpty()) {
+                            String Name = name.getText().toString();
+                            String Division = division.getText().toString();
+                            String Information = information.getText().toString();
+                            String Date = button1.getText().toString();
+                            Log.i("AL-", Name+" "+Division+" "+Information+" "+Date);
+>>>>>>> parent of 99bc055... Modify leave and overtime
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
                         } else
@@ -312,6 +336,11 @@ public class EntryActivity extends AppCompatActivity {
     private void leave() {
         final LayoutInflater inflater = getLayoutInflater();
         final View mView = inflater.inflate(R.layout.item_entry_leave, null);
+<<<<<<< HEAD
+=======
+        final TextInputEditText name = (TextInputEditText) mView.findViewById(R.id.leave_name);
+        final TextInputEditText division = (TextInputEditText) mView.findViewById(R.id.leave_division);
+>>>>>>> parent of 99bc055... Modify leave and overtime
         final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.leave_info);
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle("Leave")
@@ -334,16 +363,27 @@ public class EntryActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
                             gooddate = false;
                         }
-                        if (!information.getText().toString().isEmpty()
+                        if (!name.getText().toString().isEmpty() //wajib diisi
+                                && !division.getText().toString().isEmpty()
+                                && !information.getText().toString().isEmpty()
                                 && !button1.getText().toString().isEmpty()
                                 && !button2.getText().toString().isEmpty()
                                 && !spinner_type.getSelectedItem().toString().isEmpty()
                                 && gooddate) {
+<<<<<<< HEAD
                             String type = spinner_type.getSelectedItem().toString();
                             String Information = information.getText().toString();
                             String DateFrom = button1.getText().toString();
                             String DateTo = button2.getText().toString();
                             Log.i("AL-", type + " " + Information + " " + DateFrom + " " + DateTo);
+=======
+                            String Name = name.getText().toString();
+                            String Division = division.getText().toString();
+                            String Information = information.getText().toString();
+                            String DateFrom = button1.getText().toString();
+                            String DateTo = button2.getText().toString();
+                            Log.i("AL-", Name+" "+Division+" "+Information+" "+DateFrom+" "+DateTo);
+>>>>>>> parent of 99bc055... Modify leave and overtime
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
                         } else if (gooddate)
