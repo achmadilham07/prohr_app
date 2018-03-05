@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.ViewPager;
@@ -27,20 +30,34 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.ilham.loginlogout.Constant;
+import com.example.ilham.loginlogout.Message;
 import com.example.ilham.loginlogout.R;
+import com.example.ilham.loginlogout.RetrofitInterface;
+import com.example.ilham.loginlogout.Users;
 import com.example.ilham.loginlogout.ViewPagerAdapter;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class EntryActivity extends AppCompatActivity {
+    private Constant constant = new Constant();
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
@@ -48,11 +65,15 @@ public class EntryActivity extends AppCompatActivity {
     private FloatingActionButton btnFloat1;
     private CardView cardView;
     private Calendar calendar;
+    private Button button1, button2, button3;
     boolean isFromButton1 = false, gooddate, datepressed = false;
     private Animation rotate_forward, rotate_backward;
-    String[] Array = {"Leave", "Overtime", "Claim", "Loan & Installment"};
+    String[] Array = {"Permit", "Leave", "Overtime", "Claim", "Loan & Installment"};
+    private String[] cuti_arr = {};
     private Calendar fromDate;
     private Calendar toDate;
+    Users users;
+    private String idBeacon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +85,9 @@ public class EntryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Entry");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+
+        users = new Users(getApplicationContext());
+        idBeacon = users.getId_beacon();
 
         tabLayout = (TabLayout) findViewById(R.id.entry_tablayout);
         viewPager = (ViewPager) findViewById(R.id.entry_viewpager);
@@ -85,15 +109,18 @@ public class EntryActivity extends AppCompatActivity {
                 closeCardView();
                 switch (position) {
                     case 0:
-                        leave();
+                        permit();
                         break;
                     case 1:
-                        overtime();
+                        leave();
                         break;
                     case 2:
-                        claim();
+                        overtime();
                         break;
                     case 3:
+                        claim();
+                        break;
+                    case 4:
                         loan();
                         break;
                     default:
@@ -145,11 +172,237 @@ public class EntryActivity extends AppCompatActivity {
 
     }
 
+    private void add_permit(String category_id, String date_begin, String date_end, String notes) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        // setting uri
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
+        RequestBody category_idRequest = RequestBody.create(MediaType.parse("text/plain"), category_id);
+        RequestBody date_beginRequest = RequestBody.create(MediaType.parse("text/plain"), date_begin);
+        RequestBody date_endRequest = RequestBody.create(MediaType.parse("text/plain"), date_end);
+        RequestBody notesRequest = RequestBody.create(MediaType.parse("text/plain"), notes);
+
+        // melakukan koneksi ke http addCatatan.php
+        Call call = retrofitInterface.addPermit(idBeaconRequest, category_idRequest, date_beginRequest, date_endRequest, notesRequest);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                // response code sama dengan 200
+                if (response.isSuccessful()) {
+
+                    // ubah response body ke dalam catatan list
+                    Message message = (Message) response.body();
+
+                    if (message.getStatus()) {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
+                }
+
+                dialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                dialog.dismiss();
+                Snackbar.make(getCurrentFocus(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void add_leave(String category_id, String date_begin, String date_end, String notes) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        // setting uri
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
+        RequestBody category_idRequest = RequestBody.create(MediaType.parse("text/plain"), category_id);
+        RequestBody date_beginRequest = RequestBody.create(MediaType.parse("text/plain"), date_begin);
+        RequestBody date_endRequest = RequestBody.create(MediaType.parse("text/plain"), date_end);
+        RequestBody notesRequest = RequestBody.create(MediaType.parse("text/plain"), notes);
+
+        // melakukan koneksi ke http addCatatan.php
+        Call call = retrofitInterface.addLeave(idBeaconRequest, category_idRequest, date_beginRequest, date_endRequest, notesRequest);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                // response code sama dengan 200
+                if (response.isSuccessful()) {
+
+                    // ubah response body ke dalam catatan list
+                    Message message = (Message) response.body();
+
+                    if (message.getStatus()) {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
+                }
+
+                dialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                dialog.dismiss();
+                Snackbar.make(getCurrentFocus(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void add_overtime(String date, String time_begin, String time_end, String notes) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        // setting uri
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
+        RequestBody dateRequest = RequestBody.create(MediaType.parse("text/plain"), date);
+        RequestBody time_beginRequest = RequestBody.create(MediaType.parse("text/plain"), time_begin);
+        RequestBody time_endRequest = RequestBody.create(MediaType.parse("text/plain"), time_end);
+        RequestBody notesRequest = RequestBody.create(MediaType.parse("text/plain"), notes);
+
+        // melakukan koneksi ke http addCatatan.php
+        Call call = retrofitInterface.addOvertime(idBeaconRequest, dateRequest, time_beginRequest, time_endRequest, notesRequest);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                // response code sama dengan 200
+                if (response.isSuccessful()) {
+
+                    // ubah response body ke dalam catatan list
+                    Message message = (Message) response.body();
+
+                    if (message.getStatus()) {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
+                }
+
+                dialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                dialog.dismiss();
+                Snackbar.make(getCurrentFocus(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void permit() {
+        final LayoutInflater inflater = getLayoutInflater();
+        final View mView = inflater.inflate(R.layout.item_entry_permit, null);
+        final Spinner spinner = (Spinner) mView.findViewById(R.id.permit_type);
+        final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.permit_info);
+        final AlertDialog builder = new AlertDialog.Builder(this)
+                .setTitle("Permit")
+                .setPositiveButton(android.R.string.yes, null) //di-set biar gak auto close
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {// diisi kosong aja
+                    }
+                })
+                .create();
+        builder.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button buttonPositive = builder.getButton(AlertDialog.BUTTON_POSITIVE);
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gooddate = true;
+                        if (datepressed && (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0)) {
+                            Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
+                            gooddate = false;
+                        }
+                        if (!information.getText().toString().isEmpty()
+                                && !button1.getText().toString().isEmpty()
+                                && !button2.getText().toString().isEmpty()
+                                && gooddate) {
+
+                            String Information = information.getText().toString();
+                            String DateFrom = button1.getText().toString();
+                            String JenisIjin = spinner.getSelectedItem().toString();
+                            String DateTo = button2.getText().toString();
+                            Log.i("AL-", Information + " " + DateFrom + " " + DateTo + " " + JenisIjin);
+
+                            add_permit(JenisIjin, DateFrom, DateTo, Information);
+                            // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
+                            builder.dismiss(); //close builder(dialog)
+                        } else if (gooddate)
+                            Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        button1 = (Button) mView.findViewById(R.id.datefrom);
+        button2 = (Button) mView.findViewById(R.id.dateto);
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("AL-", "Hello");
+                isFromButton1 = true;
+                setdate();
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("AL-", "Hello");
+                isFromButton1 = false;
+                setdate();
+
+            }
+        });
+        builder.setView(mView);
+        builder.show();
+    }
+
     private void loan() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.item_entry_loan, null))
-                .setTitle("Loan & Installment")
+                .setTitle("Loan")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -211,24 +464,48 @@ public class EntryActivity extends AppCompatActivity {
                 buttonPositive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (!information.getText().toString().isEmpty()
+                                && !button1.getText().toString().isEmpty()
+                                && !button2.getText().toString().isEmpty()
+                                && !button3.getText().toString().isEmpty()) {
                             String Information = information.getText().toString();
                             String Date = button1.getText().toString();
+                            String From = button2.getText().toString();
+                            String To = button3.getText().toString();
+                            Log.i("AL-", Information + " " + Date + " " + From + " " + To);
+
+                            add_overtime(Date, From, To, Information);
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
-                        }
-                        else
+                        } else
                             Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
         button1 = (Button) mView.findViewById(R.id.overtime_date);
+        button2 = (Button) mView.findViewById(R.id.overtime_from);
+        button3 = (Button) mView.findViewById(R.id.overtime_to);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("AL-", "Hello");
                 isFromButton1 = true;
                 setdate();
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isFromButton1 = true;
+                setTime();
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isFromButton1 = false;
+                setTime();
             }
         });
         builder.setView(mView);
@@ -238,6 +515,7 @@ public class EntryActivity extends AppCompatActivity {
     private void leave() {
         final LayoutInflater inflater = getLayoutInflater();
         final View mView = inflater.inflate(R.layout.item_entry_leave, null);
+        final Spinner spinner = (Spinner) mView.findViewById(R.id.leave_cuti);
         final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.leave_info);
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle("Leave")
@@ -256,28 +534,33 @@ public class EntryActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         gooddate = true;
-                        if(datepressed && (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0)){
+                        if (datepressed && (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0)) {
                             Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
                             gooddate = false;
                         }
+                        if (!information.getText().toString().isEmpty()
                                 && !button1.getText().toString().isEmpty()
                                 && !button2.getText().toString().isEmpty()
                                 && gooddate) {
+
                             String Information = information.getText().toString();
                             String DateFrom = button1.getText().toString();
+                            String JenisCuti = spinner.getSelectedItem().toString();
                             String DateTo = button2.getText().toString();
+                            Log.i("AL-", Information + " " + DateFrom + " " + DateTo + " " + JenisCuti);
+
+                            add_leave(JenisCuti, DateFrom, DateTo, Information);
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
-                        }
-                        else
-                            if(gooddate)
-                                Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
+                        } else if (gooddate)
+                            Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
         button1 = (Button) mView.findViewById(R.id.datefrom);
         button2 = (Button) mView.findViewById(R.id.dateto);
+
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -323,6 +606,11 @@ public class EntryActivity extends AppCompatActivity {
     private void setdate() {
         DialogFragment dialogFragment = new DatePickerFragment();
         dialogFragment.show(getFragmentManager(), "Date Picker");
+    }
+
+    private void setTime() {
+        DialogFragment dialogFragment = new TimePickerFragment();
+        dialogFragment.show(getFragmentManager(), "Time Picker");
     }
 
     private void animateFab(int position) {
@@ -375,19 +663,49 @@ public class EntryActivity extends AppCompatActivity {
             cal.setTimeInMillis(0);
             cal.set(year, month, day, 0, 0, 0);
             Date chosenDate = cal.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("y-M-d");
             String formattedDate = df.format(chosenDate);
             Log.i("AL-", formattedDate);
             datepressed = true;
-            if (isFromButton1){
+            if (isFromButton1) {
                 button1.setText(formattedDate);
                 fromDate = cal;
-            }
-
-            else{
+            } else {
                 button2.setText(formattedDate);
                 toDate = cal;
             }
 
+        }
+    }
+
+    @SuppressLint("ValidFragment")
+    public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+        }
+
+        @Override
+        public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(0);
+            c.set(Calendar.HOUR_OF_DAY, hour);
+            c.set(Calendar.MINUTE, minute);
+            Date chosenDate = c.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("kk:mm");
+            String formattedDate = df.format(chosenDate);
+            Log.i("AL-", formattedDate);
+            if (isFromButton1) {
+                button2.setText(formattedDate);
+            } else {
+                button3.setText(formattedDate);
+            }
         }
     }
 }
