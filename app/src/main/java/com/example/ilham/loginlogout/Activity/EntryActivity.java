@@ -68,7 +68,7 @@ public class EntryActivity extends AppCompatActivity {
     private CardView cardView;
     private Calendar calendar;
     private Button button1, button2, button3;
-    boolean isFromButton1 = false, gooddate, datepressed = false;
+    boolean isFromButton1 = false, gooddate;
     private Animation rotate_forward, rotate_backward;
     String[] Array = {"Permit", "Leave", "Overtime", "Claim", "Loan & Installment"};
     private String[] cuti_arr = {};
@@ -351,16 +351,13 @@ public class EntryActivity extends AppCompatActivity {
                 buttonPositive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        gooddate = true;
-                        if (datepressed && (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0)) {
-                            Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
-                            gooddate = false;
-                        }
                         if (!information.getText().toString().isEmpty()
                                 && !button1.getText().toString().isEmpty()
-                                && !button2.getText().toString().isEmpty()
-                                && gooddate) {
-
+                                && !button2.getText().toString().isEmpty()) {
+                            if (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0) {
+                                Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             String Information = information.getText().toString();
                             String DateFrom = button1.getText().toString();
                             String JenisIjin = spinner.getSelectedItem().toString();
@@ -370,7 +367,7 @@ public class EntryActivity extends AppCompatActivity {
                             add_permit(JenisIjin, DateFrom, DateTo, Information);
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
-                        } else if (gooddate)
+                        } else
                             Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -536,16 +533,13 @@ public class EntryActivity extends AppCompatActivity {
                 buttonPositive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        gooddate = true;
-                        if (datepressed && (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0)) {
-                            Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
-                            gooddate = false;
-                        }
                         if (!information.getText().toString().isEmpty()
                                 && !button1.getText().toString().isEmpty()
-                                && !button2.getText().toString().isEmpty()
-                                && gooddate) {
-
+                                && !button2.getText().toString().isEmpty()) {
+                            if (toDate.getTimeInMillis() - fromDate.getTimeInMillis() < 0) {
+                                Toast.makeText(getApplicationContext(), "please fix the date", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             String Information = information.getText().toString();
                             String DateFrom = button1.getText().toString();
                             String JenisCuti = spinner.getSelectedItem().toString();
@@ -557,7 +551,6 @@ public class EntryActivity extends AppCompatActivity {
                             builder.dismiss(); //close builder(dialog)
                         }
                         else
-                        if(gooddate)
                             Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -668,10 +661,9 @@ public class EntryActivity extends AppCompatActivity {
             cal.setTimeInMillis(0);
             cal.set(year, month, day, 0, 0, 0);
             Date chosenDate = cal.getTime();
-            SimpleDateFormat df = new SimpleDateFormat("y-M-d");
+            SimpleDateFormat df = new SimpleDateFormat("d-M-y");
             String formattedDate = df.format(chosenDate);
             Log.i("AL-", formattedDate);
-            datepressed = true;
             if (isFromButton1) {
                 button1.setText(formattedDate);
                 fromDate = cal;
