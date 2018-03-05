@@ -17,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,9 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.ilham.loginlogout.R;
 import com.example.ilham.loginlogout.ViewPagerAdapter;
 
+import android.text.format.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -303,8 +304,8 @@ public class EntryActivity extends AppCompatActivity {
                             builder.dismiss(); //close builder(dialog)
                         }
                         else
-                            if(gooddate)
-                                Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
+                        if(gooddate)
+                            Toast.makeText(getApplicationContext(), "Please fill the context", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
