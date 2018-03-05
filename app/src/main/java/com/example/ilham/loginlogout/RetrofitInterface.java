@@ -15,6 +15,31 @@ import retrofit2.http.Part;
  */
 
 public interface RetrofitInterface {
+
+    @Multipart
+    @POST("employee_overtime.php")
+    Call<Message> addOvertime(@Part("id_beacon") RequestBody id_beacon,
+                              @Part("date") RequestBody date,
+                              @Part("time_begin") RequestBody date_begin,
+                              @Part("time_end") RequestBody date_end,
+                              @Part("notes") RequestBody notes);
+
+    @Multipart
+    @POST("employee_permit.php")
+    Call<Message> addPermit(@Part("id_beacon") RequestBody id_beacon,
+                            @Part("category_id") RequestBody category_id,
+                            @Part("date_begin") RequestBody date_begin,
+                            @Part("date_end") RequestBody date_end,
+                            @Part("notes") RequestBody notes);
+
+    @Multipart
+    @POST("employee_leave.php")
+    Call<Message> addLeave(@Part("id_beacon") RequestBody id_beacon,
+                           @Part("category_id") RequestBody category_id,
+                           @Part("date_begin") RequestBody date_begin,
+                           @Part("date_end") RequestBody date_end,
+                           @Part("notes") RequestBody notes);
+
     @POST("presenceGetYear.php")
     @FormUrlEncoded
     Call<List<PresenceYear>> getPresenceYear(@Field("id_beacon") String id_beacon);

@@ -20,6 +20,8 @@ public class Users {
     // Context
     Context _context;
 
+    SessionManager session;
+
     // Shared pref mode
     int PRIVATE_MODE = 0;
 
@@ -58,9 +60,12 @@ public class Users {
     private String password;
 
     public Users(Context context) {
+
         this._context = context;
-        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        editor = pref.edit();
+
+        session = new SessionManager(_context);
+        pref = session.pref;
+        editor = session.editor;
     }
 
     public Map<String, String> getUser() {
