@@ -14,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -53,7 +56,8 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
     private Constant constant = new Constant();
     SessionManager session;
     private String idBeacon, uid;
-    private ArrayList<ContactEmp> contactList;
+    private ArrayList<ContactEmp> contactList = new ArrayList<>(); //selalu di-init gini jangan null biar gak error >.<
+    private ArrayList<ContactEmp> searched = new ArrayList<>(); // buat duplikasi search
     private RecyclerView recycleView;
     private RecyclerView.LayoutManager layoutManager;
     private SlimAdapter adapter;
@@ -61,6 +65,7 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
     private SharedPreferences.Editor editorContactEmp;
     private SharedPreferences prefContactEmp;
     private ImageView contactimg;
+    private SearchView searchView;
     private TextDrawable[] drawable;
     private SwipeLayout swipeLayout;
     private LinearLayout call_contact, email_contact;
@@ -80,7 +85,7 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        searchView = (SearchView) view.findViewById(R.id.contact_search);
         getActivity().setTitle("Contact Employee");
         setHasOptionsMenu(true);
 
@@ -274,6 +279,29 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
         switch (id){
             case R.id.contact_search:
                 Snackbar.make(getView(),"Search", Snackbar.LENGTH_SHORT).show();
+                searchView.setVisibility(View.VISIBLE);
+                searchView.setActivated(true);
+                searchView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                searchView.onActionViewExpanded();
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String s) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String s) {
+                        searched.clear();
+                        for (ContactEmp member : contactList){
+                            if(member.getFullname().toLowerCase().contains(s.toLowerCase()))
+                                searched.add(member);
+                        }
+                        adapter.updateData(searched);
+                        adapter.notifyDataSetChanged();
+                        return false;
+                    }
+                });
+
                 break;
             case R.id.contact_export:
                 Snackbar.make(getView(),"Export", Snackbar.LENGTH_SHORT).show();
