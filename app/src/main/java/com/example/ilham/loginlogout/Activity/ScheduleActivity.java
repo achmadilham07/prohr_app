@@ -2,6 +2,7 @@ package com.example.ilham.loginlogout.Activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,10 +19,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ilham.loginlogout.ContactEmp;
 import com.example.ilham.loginlogout.R;
+import com.example.ilham.loginlogout.SessionManager;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,6 +56,9 @@ public class ScheduleActivity extends AppCompatActivity {
     private int month = 0;
     private int year = 0;
     private ImageButton previousMonth, nextMonth;
+    private SharedPreferences prefSchedule;
+    SessionManager session;
+    private ArrayList<ContactEmp> contactList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,13 @@ public class ScheduleActivity extends AppCompatActivity {
         allevent = new ArrayList<>();
         calendar = Calendar.getInstance(Locale.getDefault());
         setContentView(R.layout.activity_schedule);
+
+        session = new SessionManager(getApplicationContext());
+        prefSchedule = session.pref;
+        loadData();
+        // contactList ini Array nya
+        Toast.makeText(getApplicationContext(),""+ contactList.get(0).getFullname(),Toast.LENGTH_LONG).show();
+        // diatas nampilin nama di array ke - 0
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         textView = (TextView) findViewById(R.id.textView4);
@@ -122,6 +138,19 @@ public class ScheduleActivity extends AppCompatActivity {
                 inputEvent(mydate);
             }
         });
+    }
+
+    private void loadData() {
+        Gson gson = new Gson();
+        String json = prefSchedule.getString("contactEmp", null);
+        Type type = new TypeToken<ArrayList<ContactEmp>>() {
+        }.getType();
+        contactList = gson.fromJson(json, type);
+
+        if (contactList == null) {
+            contactList = new ArrayList<>();
+        }
+
     }
 
     private void inputEvent(final Date date) {
