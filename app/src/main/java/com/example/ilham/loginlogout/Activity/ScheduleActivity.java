@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,10 +56,14 @@ public class ScheduleActivity extends AppCompatActivity {
     private int day = 0;
     private int month = 0;
     private int year = 0;
+    String [] nameList;
+    boolean[] checkedItem;
     private ImageButton previousMonth, nextMonth;
     private SharedPreferences prefSchedule;
     SessionManager session;
     private ArrayList<ContactEmp> contactList = new ArrayList<>();
+    private ArrayList<String> listNameContact = new ArrayList<>();
+    private ArrayList<Integer> mUserItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,9 @@ public class ScheduleActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         prefSchedule = session.pref;
         loadData();
+        for(ContactEmp member : contactList)
+            listNameContact.add(member.getFullname());
+        nameList = listNameContact.toArray(new String[listNameContact.size()]);
         // contactList ini Array nya
         Toast.makeText(getApplicationContext(),""+ contactList.get(0).getFullname(),Toast.LENGTH_LONG).show();
         // diatas nampilin nama di array ke - 0
@@ -150,6 +158,9 @@ public class ScheduleActivity extends AppCompatActivity {
         if (contactList == null) {
             contactList = new ArrayList<>();
         }
+        for (ContactEmp member : contactList){
+
+        }
 
     }
 
@@ -158,18 +169,67 @@ public class ScheduleActivity extends AppCompatActivity {
         month = Integer.parseInt(monthFormat.format(date.getTime())) - 1;
         day = Integer.parseInt(dayFormat.format(date.getTime())) - 1;
         year = Integer.parseInt(yearFormat.format(date.getTime()));
+        mUserItems.clear();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View mView = inflater.inflate(R.layout.item_event, null);
+        final TextInputEditText event_title = (TextInputEditText) mView.findViewById(R.id.event_title);
         final TextInputEditText event_input = (TextInputEditText) mView.findViewById(R.id.event_info);
+        final TextInputEditText event_with = (TextInputEditText) mView.findViewById(R.id.event_with);
+        final CheckBox event_alone = (CheckBox) mView.findViewById(R.id.event_check);
+        checkedItem = new boolean[listNameContact.size()];
+        event_with.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ScheduleActivity.this);
+                mBuilder.setTitle("Contact List");
+                mBuilder.setMultiChoiceItems(nameList, checkedItem, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        if(b)
+                            mUserItems.add(i);
+                        else
+                            mUserItems.remove(Integer.valueOf(i));
+                    }
+                });
+                mBuilder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int x) {
+                        String nameChecked = "";
+                        for (int i = 0; i < mUserItems.size(); i++){
+                            nameChecked += listNameContact.get(mUserItems.get(i));
+                            if (i != mUserItems.size() - 1)
+                                nameChecked += ", ";
+                        }
+                        event_with.setText(nameChecked);
+                    }
+                });
+                mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                AlertDialog alertDialog = mBuilder.create();
+                alertDialog.show();
+            }
+        });
         builder.setView(mView)
                 .setTitle(newdate)
                 .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        String setTitle = event_title.getText().toString();
                         String setEvent = event_input.getText().toString();
-                        if (setEvent != null && !setEvent.isEmpty() && !setEvent.equals("null"))
+                        String ListName = event_with.getText().toString();
+                        if(event_alone.isChecked())
+                            ListName = "";
+                        if (!setTitle.isEmpty() && !setEvent.isEmpty() &&
+                                (!ListName.isEmpty() || event_alone.isChecked())){
                             addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
+                            Toast.makeText(getApplicationContext(), setTitle+" "+setEvent+" "+ListName, Toast.LENGTH_SHORT).show();
+                        }
+
                         showEvent(date);
                     }
                 });

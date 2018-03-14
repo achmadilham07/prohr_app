@@ -79,9 +79,11 @@
                     android:gravity="top"
                     android:hint="Tag your friend"
                     android:layout_weight="0.9"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:focusable="false"/>
 
                 <CheckBox
+                    android:id="@+id/event_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
