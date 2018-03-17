@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,9 +29,11 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -178,40 +181,21 @@ public class ScheduleActivity extends AppCompatActivity {
         final TextInputEditText event_with = (TextInputEditText) mView.findViewById(R.id.event_with);
         final CheckBox event_alone = (CheckBox) mView.findViewById(R.id.event_check);
         checkedItem = new boolean[listNameContact.size()];
+        event_alone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked){
+                    event_with.setText("");
+                    mUserItems.clear();
+                }
+            }
+        });
         event_with.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ScheduleActivity.this);
-                mBuilder.setTitle("Contact List");
-                mBuilder.setMultiChoiceItems(nameList, checkedItem, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                        if(b)
-                            mUserItems.add(i);
-                        else
-                            mUserItems.remove(Integer.valueOf(i));
-                    }
-                });
-                mBuilder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int x) {
-                        String nameChecked = "";
-                        for (int i = 0; i < mUserItems.size(); i++){
-                            nameChecked += listNameContact.get(mUserItems.get(i));
-                            if (i != mUserItems.size() - 1)
-                                nameChecked += ", ";
-                        }
-                        event_with.setText(nameChecked);
-                    }
-                });
-                mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                AlertDialog alertDialog = mBuilder.create();
-                alertDialog.show();
+                addFriends(event_with);
+                event_alone.setChecked(false);
+                Arrays.fill(checkedItem,false);
             }
         });
         builder.setView(mView)
@@ -266,6 +250,39 @@ public class ScheduleActivity extends AppCompatActivity {
         compactCalendarView.addEvent(events);
     }
 
+    private void  addFriends(final TextInputEditText event_with){
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ScheduleActivity.this);
+        mBuilder.setTitle("Contact List");
+        mBuilder.setMultiChoiceItems(nameList, checkedItem, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                if(b)
+                    mUserItems.add(i);
+                else
+                    mUserItems.remove(Integer.valueOf(i));
+            }
+        });
+        mBuilder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int x) {
+                String nameChecked = "";
+                for (int i = 0; i < mUserItems.size(); i++){
+                    nameChecked += listNameContact.get(mUserItems.get(i));
+                    if (i != mUserItems.size() - 1)
+                        nameChecked += ", ";
+                }
+                event_with.setText(nameChecked);
+            }
+        });
+        mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog alertDialog = mBuilder.create();
+        alertDialog.show();
+    }
     private void DefaultTime(Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
