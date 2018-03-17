@@ -18,7 +18,7 @@
             android:layout_gravity="top"
             android:queryHint="Type your keyword here"
             android:visibility="invisible"></SearchView>
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/contact_search">
@@ -34,7 +34,7 @@
 
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
 
 
