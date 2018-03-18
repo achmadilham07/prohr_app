@@ -68,10 +68,9 @@ public class EntryActivity extends AppCompatActivity {
     private CardView cardView;
     private Calendar calendar;
     private Button button1, button2, button3;
-    boolean isFromButton1 = false, gooddate;
+    boolean isFromButton1 = false;
     private Animation rotate_forward, rotate_backward;
     String[] Array = {"Permit", "Leave", "Overtime", "Claim", "Loan & Installment"};
-    private String[] cuti_arr = {};
     private Calendar fromDate;
     private Calendar toDate;
     Users users;
@@ -615,10 +614,12 @@ public class EntryActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 btnFloat1.show();
+                btnFloat1.setEnabled(true);
                 cardView.setVisibility(View.GONE);
                 break;
             case 1:
                 btnFloat1.hide();
+                btnFloat1.setEnabled(false);
                 cardView.setVisibility(View.GONE);
                 break;
 

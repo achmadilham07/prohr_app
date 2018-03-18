@@ -1,6 +1,7 @@
 package com.example.ilham.loginlogout.Activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView homeemail, homename;
     boolean doubleBackToExitPressedOnce = false;
     int position;
-
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View navheader = navigationView.getHeaderView(0);
@@ -65,8 +67,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homename.setText(name);
         homeemail.setText(email);
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null){
             displaySelectedScreen(R.id.nav_home);
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
         else
             position = savedInstanceState.getInt("position");
     }
@@ -79,20 +83,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(position != R.id.nav_home){
             position = R.id.nav_home;
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, new HomeActivity());
-            ft.commit();
+            navigationView.setCheckedItem(position);
+            displaySelectedScreen(position);
         }
         else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
             }
-
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "BACK again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Press BACK again to exit", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
-
                 @Override
                 public void run() {
                     doubleBackToExitPressedOnce = false;
@@ -147,17 +148,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getMenuInflater().inflate(R.menu.change_pass_more, menu);
                 break;
         }
-
         return true;
     }
 
-
     public boolean displaySelectedScreen(int item) {
         // Handle navigation view item clicks here.
-
         Fragment fragment = null;
         position = item;
-
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         //initializing the fragment object which is selected
         switch (item) {
             case R.id.nav_home:
@@ -192,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -201,8 +202,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         outState.putInt("position", position);
     }
-
 }

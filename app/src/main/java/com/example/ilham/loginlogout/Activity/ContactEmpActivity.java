@@ -153,6 +153,7 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
                                             public void onClick(View view) {
                                                 Toast.makeText(getContext(), "" + data.getFullname(), Toast.LENGTH_SHORT).show();
                                                 Bundle bundle = new Bundle();
+                                                hideSearchView();
                                                 Intent i = new Intent(getContext(), ContactEmpViewActivity.class);
                                                 i.putExtra("fullname", data.getFullname());
                                                 i.putExtra("uname", data.getUname());
@@ -271,11 +272,17 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
         super.onStop();
         swipeRefreshLayout.setEnabled(false);
     }
+    public void hideSearchView(){
+        searchView.onActionViewCollapsed();
+        searchView.setVisibility(View.GONE);
+        searchView.setActivated(true);
+        searchView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        hideSearchView();
         switch (id){
             case R.id.contact_search:
                 Snackbar.make(getView(),"Search", Snackbar.LENGTH_SHORT).show();
