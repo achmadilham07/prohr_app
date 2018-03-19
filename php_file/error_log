@@ -1,0 +1,21 @@
+[15-Feb-2018 10:32:28 UTC] PHP Warning:  mysqli_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:32:28 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:33:03 UTC] PHP Warning:  mysqli_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:33:03 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:41:50 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'sgx8.cloudhost.id' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:50:03 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:50:45 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:56:22 UTC] PHP Warning:  mysqli_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:56:22 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:56:23 UTC] PHP Warning:  mysqli_connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:56:23 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:57:33 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:57:34 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:57:35 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 10:57:35 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 11:01:35 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 11:01:48 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 11:01:48 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 11:01:49 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 11:02:13 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
+[15-Feb-2018 11:02:14 UTC] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'urbancar_Testing'@'localhost' (using password: YES) in /home/urbancar/public_html/login/config.php on line 3
