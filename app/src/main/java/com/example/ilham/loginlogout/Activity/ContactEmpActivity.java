@@ -86,6 +86,27 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         searchView = (SearchView) view.findViewById(R.id.contact_search);
+        searchView.setIconifiedByDefault(false);
+        searchView.setFocusable(false);
+        searchView.setIconified(false);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searched.clear();
+                for (ContactEmp member : contactList){
+                    if(member.getFullname().toLowerCase().contains(s.toLowerCase()))
+                        searched.add(member);
+                }
+                adapter.updateData(searched);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
         getActivity().setTitle("Contact Employee");
         setHasOptionsMenu(true);
 
@@ -153,7 +174,7 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
                                             public void onClick(View view) {
                                                 Toast.makeText(getContext(), "" + data.getFullname(), Toast.LENGTH_SHORT).show();
                                                 Bundle bundle = new Bundle();
-                                                hideSearchView();
+                                                noFocusSearchView();
                                                 Intent i = new Intent(getContext(), ContactEmpViewActivity.class);
                                                 i.putExtra("fullname", data.getFullname());
                                                 i.putExtra("uname", data.getUname());
@@ -272,43 +293,18 @@ public class ContactEmpActivity extends Fragment implements SwipeRefreshLayout.O
         super.onStop();
         swipeRefreshLayout.setEnabled(false);
     }
-    public void hideSearchView(){
-        searchView.onActionViewCollapsed();
-        searchView.setVisibility(View.GONE);
-        searchView.setActivated(true);
-        searchView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    public void noFocusSearchView(){
+        searchView.setFocusable(false);
+        searchView.setIconified(false);
+        searchView.clearFocus();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        hideSearchView();
         switch (id){
             case R.id.contact_search:
                 Snackbar.make(getView(),"Search", Snackbar.LENGTH_SHORT).show();
-                searchView.setVisibility(View.VISIBLE);
-                searchView.setActivated(true);
-                searchView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                searchView.onActionViewExpanded();
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String s) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String s) {
-                        searched.clear();
-                        for (ContactEmp member : contactList){
-                            if(member.getFullname().toLowerCase().contains(s.toLowerCase()))
-                                searched.add(member);
-                        }
-                        adapter.updateData(searched);
-                        adapter.notifyDataSetChanged();
-                        return false;
-                    }
-                });
-
                 break;
             case R.id.contact_export:
                 Snackbar.make(getView(),"Export", Snackbar.LENGTH_SHORT).show();
