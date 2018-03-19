@@ -1,4 +1,7 @@
 @echo off
+cd %PHP_FOLDER%
+if exist ftpcmd.bat (
+	del ftpcmd.bat)
 echo open ftp.urbancare.id> ftpcmd.bat
 echo urbancare@urbancare.id>> ftpcmd.bat
 echo J$ml~P4V,M~L>> ftpcmd.bat
