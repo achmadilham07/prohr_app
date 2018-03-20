@@ -10,11 +10,8 @@ import android.view.ViewGroup;
 import com.example.ilham.loginlogout.R;
 
 public class EntryNowActivity extends Fragment {
+
     View v;
-
-
-    public EntryNowActivity() {
-    }
 
     @Nullable
     @Override
@@ -26,7 +23,6 @@ public class EntryNowActivity extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
     }
 }

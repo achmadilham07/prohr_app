@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.ViewPager;
@@ -43,9 +42,7 @@ import com.example.ilham.loginlogout.RetrofitInterface;
 import com.example.ilham.loginlogout.Users;
 import com.example.ilham.loginlogout.ViewPagerAdapter;
 
-import android.text.format.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -220,7 +217,7 @@ public class EntryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, Throwable t) {
                 dialog.dismiss();
-                Snackbar.make(getCurrentFocus(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No Internet Connected", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -272,7 +269,7 @@ public class EntryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, Throwable t) {
                 dialog.dismiss();
-                Snackbar.make(getCurrentFocus(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No Internet Connected", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -324,7 +321,7 @@ public class EntryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, Throwable t) {
                 dialog.dismiss();
-                Snackbar.make(getCurrentFocus(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No Internet Connected", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -662,7 +659,7 @@ public class EntryActivity extends AppCompatActivity {
             cal.setTimeInMillis(0);
             cal.set(year, month, day, 0, 0, 0);
             Date chosenDate = cal.getTime();
-            SimpleDateFormat df = new SimpleDateFormat("d-M-y");
+            SimpleDateFormat df = new SimpleDateFormat("y-M-d");
             String formattedDate = df.format(chosenDate);
             Log.i("AL-", formattedDate);
             if (isFromButton1) {

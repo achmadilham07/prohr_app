@@ -1,11 +1,13 @@
 package com.example.ilham.loginlogout.Activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,15 +23,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ilham.loginlogout.Constant;
 import com.example.ilham.loginlogout.ContactEmp;
 import com.example.ilham.loginlogout.R;
+import com.example.ilham.loginlogout.RetrofitInterface;
 import com.example.ilham.loginlogout.SessionManager;
+import com.example.ilham.loginlogout.Users;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,9 +43,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ScheduleActivity extends AppCompatActivity {
 
+    private Constant constant = new Constant();
+    Users users;
+    private String idBeacon, uid;
     private Toolbar toolbar;
     private CompactCalendarView compactCalendarView;
     private TextView textView;
@@ -63,6 +77,7 @@ public class ScheduleActivity extends AppCompatActivity {
     boolean[] checkedItem;
     private ImageButton previousMonth, nextMonth;
     private SharedPreferences prefSchedule;
+    private SharedPreferences.Editor editorSchedule;
     SessionManager session;
     private ArrayList<ContactEmp> contactList = new ArrayList<>();
     private ArrayList<String> listNameContact = new ArrayList<>();
@@ -75,15 +90,15 @@ public class ScheduleActivity extends AppCompatActivity {
         calendar = Calendar.getInstance(Locale.getDefault());
         setContentView(R.layout.activity_schedule);
 
+        users = new Users(getApplicationContext());
+        idBeacon = users.getId_beacon();
+        uid = users.getUid();
+
         session = new SessionManager(getApplicationContext());
         prefSchedule = session.pref;
+        editorSchedule = session.editor;
+
         loadData();
-        for(ContactEmp member : contactList)
-            listNameContact.add(member.getFullname());
-        nameList = listNameContact.toArray(new String[listNameContact.size()]);
-        // contactList ini Array nya
-        Toast.makeText(getApplicationContext(),""+ contactList.get(0).getFullname(),Toast.LENGTH_LONG).show();
-        // diatas nampilin nama di array ke - 0
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         textView = (TextView) findViewById(R.id.textView4);
@@ -110,7 +125,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 compactCalendarView.showNextMonth();
             }
         });
-
 
         mydate = calendar.getTime();
         textView.setText(dateFormatForMonth.format(calendar.getTime()));
@@ -160,11 +174,70 @@ public class ScheduleActivity extends AppCompatActivity {
 
         if (contactList == null) {
             contactList = new ArrayList<>();
-        }
-        for (ContactEmp member : contactList){
-
+            refreshContact();
         }
 
+        for(ContactEmp member : contactList)
+            listNameContact.add(member.getFullname());
+        nameList = listNameContact.toArray(new String[listNameContact.size()]);
+    }
+
+    private void refreshContact() {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        // setting uri
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
+        RequestBody uidRequest = RequestBody.create(MediaType.parse("text/plain"), uid);
+
+        // melakukan koneksi ke http getpresence.php
+        Call call = retrofitInterface.getContactEmp(uidRequest, idBeaconRequest);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                // response code sama dengan 200
+                if (response.isSuccessful()) {
+
+                    // ubah response body ke dalam catatan list
+                    List<ContactEmp> allList = (List<ContactEmp>) response.body();
+
+                    contactList.clear();
+                    // looping list catatan lalu dimasukkan ke arraylist di main
+                    for (ContactEmp contactEmp : allList) {
+                        contactList.add(contactEmp);
+                    }
+                    saveData();
+                    loadData();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
+                }
+                dialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                dialog.hide();
+                Snackbar.make(getCurrentFocus(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    private void saveData() {
+        Gson gson = new Gson();
+        String json = gson.toJson(contactList);
+        editorSchedule.putString("contactEmp", json);
+        editorSchedule.apply();
     }
 
     private void inputEvent(final Date date) {
@@ -283,6 +356,7 @@ public class ScheduleActivity extends AppCompatActivity {
         AlertDialog alertDialog = mBuilder.create();
         alertDialog.show();
     }
+
     private void DefaultTime(Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
