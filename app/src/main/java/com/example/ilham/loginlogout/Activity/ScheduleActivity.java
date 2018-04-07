@@ -260,6 +260,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 if(isChecked){
                     event_with.setText("");
                     mUserItems.clear();
+                    Arrays.fill(checkedItem,false);
                 }
             }
         });
@@ -268,7 +269,6 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 addFriends(event_with);
                 event_alone.setChecked(false);
-                Arrays.fill(checkedItem,false);
             }
         });
         builder.setView(mView)
