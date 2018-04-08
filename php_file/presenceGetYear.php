@@ -9,7 +9,7 @@
 		while($row = $result ->fetch_assoc()){
 			$year[] = $row;
 		}
-		$json['year'] = $year;s
+		$json['year'] = $year;
 	}
 	
 	echo json_encode($year, JSON_PRETTY_PRINT);
