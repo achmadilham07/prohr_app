@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.PresenceActivity" />
         <activity android:name=".Activity.SalaryActivity" />
