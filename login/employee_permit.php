@@ -12,9 +12,9 @@
 			$notes = "";
 		}
 		
-		$date_created = date("Y-m-d");
+		$date_created = date("Y-m-d h:i:s");
 		
-		$sql = "insert into employee_permit values(null, '$id_beacon', '$category_id', '$date_begin', '$date_end', '$notes', '0', '$date_created', '$date_created')";
+		$sql = "insert into employee_permit values(null, '$id_beacon', 'permit', '$category_id', '$date_begin', '$date_end', '$notes', '0', '$date_created', '$date_created')";
 		$result = $conn->query($sql);
 		
 		if($result){
@@ -22,7 +22,7 @@
 			$json['message'] = "data berhasil disimpan";
 		} else {
 			$json['status'] = false;
-			$json['message'] = "data gagal disimpan";
+			$json['message'] = $sql;//"data gagal disimpan";
 		}
 	} else {
 		$json['status'] = false;

@@ -16,6 +16,11 @@ import retrofit2.http.Part;
 
 public interface RetrofitInterface {
 
+    @POST("employee_entry_not_approved.php")
+    @FormUrlEncoded
+    Call<List<EntryNow>> getEntryNow(@Field("id_beacon") String id_beacon);
+
+
     @Multipart
     @POST("employee_overtime.php")
     Call<Message> addOvertime(@Part("id_beacon") RequestBody id_beacon,
