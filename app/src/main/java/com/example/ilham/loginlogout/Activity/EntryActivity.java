@@ -210,7 +210,7 @@ public class EntryActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
                 }
-
+                viewPager.setAdapter(adapter);
                 dialog.hide();
             }
 
