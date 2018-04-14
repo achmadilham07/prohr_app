@@ -197,6 +197,7 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void run() {
                 getData(idBeacon);
+                adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
         }, 2500);
@@ -263,7 +264,13 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
         editorEntryNow.apply();
     }
 
-    private void loadData() {
+    @Override
+    public void onResume() {
+        onRefresh();
+        super.onResume();
+    }
+
+    public void loadData() {
         Gson gson = new Gson();
         String json = prefEntryNow.getString("entryNow", null);
         Type type = new TypeToken<ArrayList<EntryNow>>() {
@@ -278,6 +285,5 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
         adapter.updateData(arrayEntryNow);
         adapter.notifyDataSetChanged();
     }
-
 
 }
