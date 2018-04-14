@@ -16,6 +16,11 @@ import retrofit2.http.Part;
 
 public interface RetrofitInterface {
 
+    @Multipart
+    @POST("employee_entry_now_del.php")
+    Call<Message> delEntryNow(@Part("entry") RequestBody entry,
+                                          @Part("id") RequestBody id);
+
     @POST("employee_entry_not_approved.php")
     @FormUrlEncoded
     Call<List<EntryNow>> getEntryNow(@Field("id_beacon") String id_beacon);

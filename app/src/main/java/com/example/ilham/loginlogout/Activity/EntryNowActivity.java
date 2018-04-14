@@ -1,12 +1,16 @@
 package com.example.ilham.loginlogout.Activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 import com.example.ilham.loginlogout.Constant;
 import com.example.ilham.loginlogout.ContactEmp;
 import com.example.ilham.loginlogout.EntryNow;
+import com.example.ilham.loginlogout.Message;
 import com.example.ilham.loginlogout.Presence;
 import com.example.ilham.loginlogout.R;
 import com.example.ilham.loginlogout.RetrofitInterface;
@@ -32,6 +37,7 @@ import net.idik.lib.slimadapter.viewinjector.IViewInjector;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -91,7 +97,7 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onInject(final EntryNow data, IViewInjector injector) {
                         injector.text(R.id.entry_now_title, data.getEntry())
-                                .text(R.id.entry_now_text, data.getCategory_id() +" - "+ data.getNotes())
+                                .text(R.id.entry_now_text, data.getCategory_id() + " - " + data.getNotes())
                                 .text(R.id.entry_now_created, data.getDate_created())
                                 .with(R.id.item, new IViewInjector.Action() {
                                     @Override
@@ -102,6 +108,13 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
 
                                             }
                                         });
+                                        view.setOnLongClickListener(new View.OnLongClickListener() {
+                                            @Override
+                                            public boolean onLongClick(View view) {
+                                                dialogDeleteEntry(data.getEntry(), data.getId());
+                                                return false;
+                                            }
+                                        });
                                     }
                                 });
 
@@ -109,9 +122,73 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
                 })
                 .attachTo(recycleView);
 
-//        getData(idBeacon);
         loadData();
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void dialogDeleteEntry(final String title, final String idData) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(title)
+                .setMessage("Are you want to Delete this " + title + " ?")
+                .setOnCancelListener(null)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteEntry(title, idData);
+                    }
+                });
+        Dialog alert = builder.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
+    }
+
+    public void deleteEntry(String title, String idData) {
+        final ProgressDialog dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Loading...");
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        // setting uri
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        RequestBody titleRequest = RequestBody.create(MediaType.parse("text/plain"), title);
+        RequestBody idRequest = RequestBody.create(MediaType.parse("text/plain"), idData);
+
+        // melakukan koneksi ke http getpresence.php
+        Call call = retrofitInterface.delEntryNow(titleRequest, idRequest);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                // response code sama dengan 200
+                if (response.isSuccessful()) {
+
+                    // ubah response body ke dalam catatan list
+                    Message message = (Message) response.body();
+
+                    if (message.getStatus()) {
+                        Toast.makeText(getContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Error ", Toast.LENGTH_SHORT).show();
+                }
+                dialog.hide();
+                onRefresh();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                dialog.dismiss();
+                Snackbar.make(getView(), "No Internet Connected", Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -125,7 +202,7 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
         }, 2500);
     }
 
-    public void onStop (){
+    public void onStop() {
         super.onStop();
         swipeRefreshLayout.setEnabled(false);
     }
@@ -168,7 +245,7 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
                 } else {
                     Toast.makeText(getContext(), "Error ", Toast.LENGTH_SHORT).show();
                 }
-
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override

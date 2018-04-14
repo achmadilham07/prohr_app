@@ -22,7 +22,7 @@
 			$json['message'] = "data berhasil disimpan";
 		} else {
 			$json['status'] = false;
-			$json['message'] = $sql;//"data gagal disimpan";
+			$json['message'] = "data gagal disimpan";
 		}
 	} else {
 		$json['status'] = false;
