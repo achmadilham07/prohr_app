@@ -74,6 +74,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private int month = 0;
     private int year = 0;
     String [] nameList;
+    String listBeacon;
     boolean[] checkedItem;
     private ImageButton previousMonth, nextMonth;
     private SharedPreferences prefSchedule;
@@ -82,6 +83,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private ArrayList<ContactEmp> contactList = new ArrayList<>();
     private ArrayList<String> listNameContact = new ArrayList<>();
     private ArrayList<Integer> mUserItems = new ArrayList<>();
+    private ArrayList<String> idBeaconList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +162,7 @@ public class ScheduleActivity extends AppCompatActivity {
         Fbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                listBeacon = "";
                 inputEvent(mydate);
             }
         });
@@ -177,8 +180,10 @@ public class ScheduleActivity extends AppCompatActivity {
             refreshContact();
         }
 
-        for(ContactEmp member : contactList)
+        for(ContactEmp member : contactList){
             listNameContact.add(member.getFullname());
+            idBeaconList.add(member.getId_beacon());
+        }
         nameList = listNameContact.toArray(new String[listNameContact.size()]);
     }
 
@@ -282,9 +287,11 @@ public class ScheduleActivity extends AppCompatActivity {
                         if(event_alone.isChecked())
                             ListName = "";
                         if (!setTitle.isEmpty() && !setEvent.isEmpty() &&
-                                (!ListName.isEmpty() || event_alone.isChecked())){
+                                ((!ListName.isEmpty() && !listBeacon.isEmpty())
+                                        || event_alone.isChecked())){
                             addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
-                            Toast.makeText(getApplicationContext(), setTitle+" "+setEvent+" "+ListName, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), setTitle+" "+setEvent+" "+listBeacon+" "+idBeacon+" "+day
+                                    +"-"+month+"-"+year, Toast.LENGTH_SHORT).show();
                         }
 
                         showEvent(date);
@@ -341,8 +348,11 @@ public class ScheduleActivity extends AppCompatActivity {
                 String nameChecked = "";
                 for (int i = 0; i < mUserItems.size(); i++){
                     nameChecked += listNameContact.get(mUserItems.get(i));
-                    if (i != mUserItems.size() - 1)
+                    listBeacon += idBeaconList.get(mUserItems.get(i));
+                    if (i != mUserItems.size() - 1){
                         nameChecked += ", ";
+                        listBeacon += ", ";
+                    }
                 }
                 event_with.setText(nameChecked);
             }
