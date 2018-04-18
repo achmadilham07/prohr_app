@@ -61,6 +61,11 @@
         <item>Lain-lainnya</item>
     </string-array>
 
+    <string-array name="overtime">
+        <item>Hari libur/tanggal merah</item>
+        <item>per Jam</item>
+        <item>1 shift/1 hari kerja</item>
+    </string-array>
     <string-array name="ijin">
         <item>Datang Terlambat</item>
         <item>Urusan Keluarga</item>

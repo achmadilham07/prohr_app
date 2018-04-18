@@ -64,7 +64,7 @@ public class EntryActivity extends AppCompatActivity {
     private FloatingActionButton btnFloat1;
     private CardView cardView;
     private Calendar calendar;
-    private Button button1, button2, button3;
+    private Button button1, button2, button3, button;
     boolean isFromButton1 = false;
     private Animation rotate_forward, rotate_backward;
     String[] Array = {"Permit", "Leave", "Overtime", "Claim", "Loan & Installment"};
@@ -274,7 +274,7 @@ public class EntryActivity extends AppCompatActivity {
         });
     }
 
-    private void add_overtime(String date, String time_begin, String time_end, String notes) {
+    private void add_overtime(String datefrom,String dateto, String time_begin, String time_end, String notes, String type) {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
         dialog.show();
@@ -289,7 +289,7 @@ public class EntryActivity extends AppCompatActivity {
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
-        RequestBody dateRequest = RequestBody.create(MediaType.parse("text/plain"), date);
+        RequestBody dateRequest = RequestBody.create(MediaType.parse("text/plain"), datefrom);
         RequestBody time_beginRequest = RequestBody.create(MediaType.parse("text/plain"), time_begin);
         RequestBody time_endRequest = RequestBody.create(MediaType.parse("text/plain"), time_end);
         RequestBody notesRequest = RequestBody.create(MediaType.parse("text/plain"), notes);
@@ -440,6 +440,7 @@ public class EntryActivity extends AppCompatActivity {
     private void overtime() {
         LayoutInflater inflater = getLayoutInflater();
         final View mView = inflater.inflate(R.layout.item_entry_overtime, null);
+        final Spinner spinner = (Spinner) mView.findViewById(R.id.overtime_tipe);
         final TextInputEditText information = (TextInputEditText) mView.findViewById(R.id.overtime_info);
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle("Overtime")
@@ -465,12 +466,14 @@ public class EntryActivity extends AppCompatActivity {
                                 && !button2.getText().toString().isEmpty()
                                 && !button3.getText().toString().isEmpty()) {
                             String Information = information.getText().toString();
-                            String Date = button1.getText().toString();
+                            String type = spinner.toString();
+                            String Datefrom = button1.getText().toString();
+                            String Dateto = button.getText().toString();
                             String From = button2.getText().toString();
                             String To = button3.getText().toString();
-                            Log.i("AL-", Information + " " + Date + " " + From + " " + To);
+                            Log.i("AL-", Information + " " + Datefrom+" "+Dateto+ " " + From + " " + To+ " "+type);
 
-                            add_overtime(Date, From, To, Information);
+                            add_overtime(Datefrom,Dateto, From, To, Information , type);
                             // ^^^^^^^^^^ data yang dikirim ke database.. NOW seharusnya ngambil nilai di database
                             builder.dismiss(); //close builder(dialog)
                         } else
@@ -479,9 +482,18 @@ public class EntryActivity extends AppCompatActivity {
                 });
             }
         });
-        button1 = (Button) mView.findViewById(R.id.overtime_date);
+        button = (Button) mView.findViewById(R.id.overtime_date_to);
+        button1 = (Button) mView.findViewById(R.id.overtime_date_from);
+
         button2 = (Button) mView.findViewById(R.id.overtime_from);
         button3 = (Button) mView.findViewById(R.id.overtime_to);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isFromButton1 = false;
+                setdate();
+            }
+        });
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -665,8 +677,12 @@ public class EntryActivity extends AppCompatActivity {
             if (isFromButton1) {
                 button1.setText(formattedDate);
                 fromDate = cal;
+                if(button.getText().toString().isEmpty()){
+                    toDate = cal;
+                    button.setText(formattedDate);
+                }
             } else {
-                button2.setText(formattedDate);
+                button.setText(formattedDate);
                 toDate = cal;
             }
 
