@@ -464,12 +464,13 @@ public class EntryActivity extends AppCompatActivity {
                         if (!information.getText().toString().isEmpty()
                                 && !button1.getText().toString().isEmpty()
                                 && !button2.getText().toString().isEmpty()
+                                && !button.getText().toString().isEmpty()
                                 && !button3.getText().toString().isEmpty()) {
                             String Information = information.getText().toString();
                             String type = spinner.toString();
                             String Datefrom = button1.getText().toString();
-                            String Dateto = button.getText().toString();
-                            String From = button2.getText().toString();
+                            String Dateto = button2.getText().toString();
+                            String From = button.getText().toString();
                             String To = button3.getText().toString();
                             Log.i("AL-", Information + " " + Datefrom+" "+Dateto+ " " + From + " " + To+ " "+type);
 
@@ -482,12 +483,13 @@ public class EntryActivity extends AppCompatActivity {
                 });
             }
         });
-        button = (Button) mView.findViewById(R.id.overtime_date_to);
-        button1 = (Button) mView.findViewById(R.id.overtime_date_from);
 
-        button2 = (Button) mView.findViewById(R.id.overtime_from);
+        button1 = (Button) mView.findViewById(R.id.overtime_date_from);
+        button2 = (Button) mView.findViewById(R.id.overtime_date_to);
         button3 = (Button) mView.findViewById(R.id.overtime_to);
-        button.setOnClickListener(new View.OnClickListener() {
+        button = (Button) mView.findViewById(R.id.overtime_from);
+
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isFromButton1 = false;
@@ -502,7 +504,7 @@ public class EntryActivity extends AppCompatActivity {
                 setdate();
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isFromButton1 = true;
@@ -677,12 +679,12 @@ public class EntryActivity extends AppCompatActivity {
             if (isFromButton1) {
                 button1.setText(formattedDate);
                 fromDate = cal;
-                if(button.getText().toString().isEmpty()){
+                if(button2.getText().toString().isEmpty()){
                     toDate = cal;
-                    button.setText(formattedDate);
+                    button2.setText(formattedDate);
                 }
             } else {
-                button.setText(formattedDate);
+                button2.setText(formattedDate);
                 toDate = cal;
             }
 
@@ -713,7 +715,7 @@ public class EntryActivity extends AppCompatActivity {
             String formattedDate = df.format(chosenDate);
             Log.i("AL-", formattedDate);
             if (isFromButton1) {
-                button2.setText(formattedDate);
+                button.setText(formattedDate);
             } else {
                 button3.setText(formattedDate);
             }
