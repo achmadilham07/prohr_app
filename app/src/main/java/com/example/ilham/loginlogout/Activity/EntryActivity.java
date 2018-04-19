@@ -262,7 +262,7 @@ public class EntryActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
                 }
-
+                viewPager.setAdapter(adapter);
                 dialog.hide();
             }
 
@@ -289,13 +289,15 @@ public class EntryActivity extends AppCompatActivity {
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
-        RequestBody dateRequest = RequestBody.create(MediaType.parse("text/plain"), datefrom);
+        RequestBody datefromRequest = RequestBody.create(MediaType.parse("text/plain"), datefrom);
+        RequestBody datetoRequest = RequestBody.create(MediaType.parse("text/plain"), dateto);
         RequestBody time_beginRequest = RequestBody.create(MediaType.parse("text/plain"), time_begin);
         RequestBody time_endRequest = RequestBody.create(MediaType.parse("text/plain"), time_end);
         RequestBody notesRequest = RequestBody.create(MediaType.parse("text/plain"), notes);
+        RequestBody catIDRequest = RequestBody.create(MediaType.parse("text/plain"), type);
 
         // melakukan koneksi ke http addCatatan.php
-        Call call = retrofitInterface.addOvertime(idBeaconRequest, dateRequest, time_beginRequest, time_endRequest, notesRequest);
+        Call call = retrofitInterface.addOvertime(idBeaconRequest, datefromRequest, datetoRequest, time_beginRequest, time_endRequest, notesRequest, catIDRequest);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -314,7 +316,7 @@ public class EntryActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
                 }
-
+                viewPager.setAdapter(adapter);
                 dialog.hide();
             }
 
@@ -467,7 +469,7 @@ public class EntryActivity extends AppCompatActivity {
                                 && !button.getText().toString().isEmpty()
                                 && !button3.getText().toString().isEmpty()) {
                             String Information = information.getText().toString();
-                            String type = spinner.toString();
+                            String type = spinner.getSelectedItem().toString();
                             String Datefrom = button1.getText().toString();
                             String Dateto = button2.getText().toString();
                             String From = button.getText().toString();

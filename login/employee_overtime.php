@@ -25,9 +25,10 @@
 
 	}
 	
-	if ( !empty($_POST['time_begin']) && !empty($_POST['time_end']) && !empty($_POST['id_beacon']) && !empty($_POST['date']) && !empty($_POST['category_id']) ){
+	if ( !empty($_POST['time_begin']) && !empty($_POST['time_end']) && !empty($_POST['id_beacon']) && !empty($_POST['date_begin']) && !empty($_POST['date_end']) && !empty($_POST['category_id']) ){
 		$id_beacon = $_POST['id_beacon'];
-		$date = $_POST['date'];
+		$date_begin = $_POST['date_begin'];
+		$date_end = $_POST['date_end'];
 		$category_id = $_POST['category_id'];
 		$time_begin = $_POST['time_begin'];
 		$time_end = $_POST['time_end'];
@@ -42,7 +43,7 @@
 		$rand_id = RandomString();
 		
 
-		$sql = "INSERT INTO `employee_overtime` (`id`, `id_beacon`, `entry`, `category_id`, `date`, `time_begin`, `time_end`, `notes`, `is_approved`, `date_created`, `date_modified`, `status_id`) VALUES (NULL, '$id_beacon', 'Overtime', '$category_id', '$date', '$time_begin', '$time_end', '$notes', '0', '$date_created', '$date_created', '$rand_id');";
+		$sql = "INSERT INTO `employee_overtime` (`id`, `id_beacon`, `entry`, `category_id`, `date_begin`, `date_end`, `time_begin`, `time_end`, `notes`, `is_approved`, `date_created`, `date_modified`, `status_id`) VALUES (NULL, '$id_beacon', 'Overtime', '$category_id', '$date_begin', '$date_end', '$time_begin', '$time_end', '$notes', '0', '$date_created', '$date_created', '$rand_id');";
 
 		$result = $conn->query($sql);
 		

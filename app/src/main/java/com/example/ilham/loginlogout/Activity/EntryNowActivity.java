@@ -13,9 +13,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ilham.loginlogout.Constant;
@@ -59,6 +61,7 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
     private ArrayList<EntryNow> arrayEntryNow = new ArrayList<>();
     private SharedPreferences.Editor editorEntryNow;
     private SharedPreferences prefEntryNow;
+    private TextView noneList;
     SessionManager session;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -91,6 +94,8 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         swipeRefreshLayout.setOnRefreshListener(this);
+
+        noneList = (TextView) view.findViewById(R.id.entry_not_approved_noneList);
 
         adapter = SlimAdapter.create()
                 .register(R.layout.item_list_entry_now, new SlimInjector<EntryNow>() {
@@ -234,10 +239,27 @@ public class EntryNowActivity extends Fragment implements SwipeRefreshLayout.OnR
                     List<EntryNow> allList = (List<EntryNow>) response.body();
 
                     arrayEntryNow.clear();
-                    // looping list catatan lalu dimasukkan ke arraylist di main
-                    for (EntryNow entrynow : allList) {
+                    if (allList != null){
+                        // looping list catatan lalu dimasukkan ke arraylist di main
+                        for (EntryNow entrynow : allList) {
+                            arrayEntryNow.add(entrynow);
+                        }
+                        Log.i("Entry-", String.valueOf(arrayEntryNow.get(0).getEntry()));
+                    } else {
+                        arrayEntryNow.clear();
+                    }
 
-                        arrayEntryNow.add(entrynow);
+                    if (arrayEntryNow.isEmpty()) {
+                        Log.i("Entry-", "data Entry Kosong");
+                        recycleView.setEnabled(false);
+                        recycleView.setVisibility(View.GONE);
+                        noneList.setEnabled(true);
+                        noneList.setVisibility(View.VISIBLE);
+                    } else {
+                        recycleView.setEnabled(true);
+                        recycleView.setVisibility(View.VISIBLE);
+                        noneList.setEnabled(false);
+                        noneList.setVisibility(View.GONE);
                     }
 
                     saveData();

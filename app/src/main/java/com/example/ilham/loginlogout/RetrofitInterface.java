@@ -29,10 +29,12 @@ public interface RetrofitInterface {
     @Multipart
     @POST("employee_overtime.php")
     Call<Message> addOvertime(@Part("id_beacon") RequestBody id_beacon,
-                              @Part("date") RequestBody date,
-                              @Part("time_begin") RequestBody date_begin,
-                              @Part("time_end") RequestBody date_end,
-                              @Part("notes") RequestBody notes);
+                              @Part("date_begin") RequestBody date_begin,
+                              @Part("date_end") RequestBody date_end,
+                              @Part("time_begin") RequestBody time_begin,
+                              @Part("time_end") RequestBody time_end,
+                              @Part("notes") RequestBody notes,
+                              @Part("category_id") RequestBody category_id);
 
     @Multipart
     @POST("employee_permit.php")
