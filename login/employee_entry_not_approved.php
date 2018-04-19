@@ -7,7 +7,7 @@
 	
 	if ( !empty($_POST['id_beacon']) ){
 		$id_beacon = $_POST['id_beacon'];
-			
+		// (SELECT id, entry, category_id, notes, date_created  FROM employee_permit WHERE id_beacon = 'BC9801' AND is_approved = '0' ORDER BY date_modified DESC) UNION (SELECT id, entry, category_id, notes, date_created  FROM employee_overtime WHERE id_beacon = 'BC9801' AND is_approved = '0' ORDER BY date_modified DESC) UNION (SELECT id, entry, category_id, notes, date_created  FROM employee_leave WHERE id_beacon = 'BC9801' AND is_approved = '0' ORDER BY date_modified DESC)
 		$sql = array(
 			"SELECT * FROM employee_permit WHERE id_beacon = '$id_beacon' AND is_approved = '0' ORDER BY date_modified DESC",
 			"SELECT * FROM employee_leave WHERE id_beacon = '$id_beacon' AND is_approved = '0' ORDER BY date_modified DESC",

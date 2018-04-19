@@ -4,17 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/entry_now_swipe"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="10dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/entry_not_approved"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="@dimen/margin_card"
-        android:layout_marginRight="@dimen/margin_card"
-        android:layout_marginTop="@dimen/margin_card" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Empty List"
+            android:visibility="invisible" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/entry_not_approved"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:visibility="visible" />
+    </RelativeLayout>
+
 
 </android.support.v4.widget.SwipeRefreshLayout>
