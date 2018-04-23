@@ -43,16 +43,12 @@
 
 		$sql = "INSERT INTO `employee_leave` (`id`, `id_beacon`, `entry`, `category_id`, `date_begin`, `date_end`, `notes`, `is_approved`, `date_created`, `date_modified`, `status_id`) VALUES (NULL, '$id_beacon', 'Leave', '$category_id', '$date_begin', '$date_end', '$notes', '0', '$date_created', '$date_created', '$rand_id');";
 
-		$result = $conn->query($sql);
+		$result1 = $conn->query($sql);
+		$result2 = status();
 		
-		if($result){
-			if(status()){
-				$json['status'] = true;
-				$json['message'] = "data berhasil disimpan";
-			} else {
-				$json['status'] = false;
-				$json['message'] = "data gagal disimpan";
-			}
+		if($result1 && $result2){
+			$json['status'] = true;
+			$json['message'] = "data berhasil disimpan";
 		} else {
 			$json['status'] = false;
 			$json['message'] = "data gagal disimpan";

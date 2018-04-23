@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.ilham.loginlogout.Constant;
 import com.example.ilham.loginlogout.ContactEmp;
+import com.example.ilham.loginlogout.Message;
 import com.example.ilham.loginlogout.R;
 import com.example.ilham.loginlogout.RetrofitInterface;
 import com.example.ilham.loginlogout.SessionManager;
@@ -73,7 +74,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private int day = 0;
     private int month = 0;
     private int year = 0;
-    String [] nameList;
+    String[] nameList;
     String listBeacon;
     boolean[] checkedItem;
     private ImageButton previousMonth, nextMonth;
@@ -180,7 +181,7 @@ public class ScheduleActivity extends AppCompatActivity {
             refreshContact();
         }
 
-        for(ContactEmp member : contactList){
+        for (ContactEmp member : contactList) {
             listNameContact.add(member.getFullname());
             idBeaconList.add(member.getId_beacon());
         }
@@ -245,10 +246,61 @@ public class ScheduleActivity extends AppCompatActivity {
         editorSchedule.apply();
     }
 
+    private void add_schedule(String date_event, String notes, String title, String partner) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        // setting uri
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
+        RequestBody notesRequest = RequestBody.create(MediaType.parse("text/plain"), notes);
+        RequestBody date_eventRequest = RequestBody.create(MediaType.parse("text/plain"), date_event);
+        RequestBody titleRequest = RequestBody.create(MediaType.parse("text/plain"), title);
+        RequestBody partnerRequest = RequestBody.create(MediaType.parse("text/plain"), partner);
+
+        // melakukan koneksi ke http addCatatan.php
+        Call call = retrofitInterface.addSchedule(idBeaconRequest, date_eventRequest, titleRequest, notesRequest, partnerRequest);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                // response code sama dengan 200
+                if (response.isSuccessful()) {
+
+                    // ubah response body ke dalam catatan list
+                    Message message = (Message) response.body();
+
+                    if (message.getStatus()) {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
+                }
+                dialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                dialog.dismiss();
+                Toast.makeText(getApplicationContext(), "No Internet Connected", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void inputEvent(final Date date) {
         String newdate = dateFormat.format(date.getTime());
-        month = Integer.parseInt(monthFormat.format(date.getTime())) - 1;
-        day = Integer.parseInt(dayFormat.format(date.getTime())) - 1;
+        month = Integer.parseInt(monthFormat.format(date.getTime()));
+        day = Integer.parseInt(dayFormat.format(date.getTime()));
         year = Integer.parseInt(yearFormat.format(date.getTime()));
         mUserItems.clear();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -262,10 +314,10 @@ public class ScheduleActivity extends AppCompatActivity {
         event_alone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     event_with.setText("");
                     mUserItems.clear();
-                    Arrays.fill(checkedItem,false);
+                    Arrays.fill(checkedItem, false);
                 }
             }
         });
@@ -284,14 +336,13 @@ public class ScheduleActivity extends AppCompatActivity {
                         String setTitle = event_title.getText().toString();
                         String setEvent = event_input.getText().toString();
                         String ListName = event_with.getText().toString();
-                        if(event_alone.isChecked())
+                        if (event_alone.isChecked())
                             ListName = "";
-                        if (!setTitle.isEmpty() && !setEvent.isEmpty() &&
-                                ((!ListName.isEmpty() && !listBeacon.isEmpty())
-                                        || event_alone.isChecked())){
+                        if (!setTitle.isEmpty() && !setEvent.isEmpty() && ((!ListName.isEmpty() && !listBeacon.isEmpty()) || event_alone.isChecked())) {
                             addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
-                            Toast.makeText(getApplicationContext(), setTitle+" "+setEvent+" "+listBeacon+" "+idBeacon+" "+day
-                                    +"-"+month+"-"+year, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), setTitle + " " + setEvent + " " + listBeacon + " " + idBeacon + " " + day + "-" + month + "-" + year, Toast.LENGTH_SHORT).show();
+                            // add_schedule(year + "-" + month + "-" + day, setEvent, setTitle, listBeacon);
+
                         }
 
                         showEvent(date);
@@ -330,13 +381,13 @@ public class ScheduleActivity extends AppCompatActivity {
         compactCalendarView.addEvent(events);
     }
 
-    private void  addFriends(final TextInputEditText event_with){
+    private void addFriends(final TextInputEditText event_with) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(ScheduleActivity.this);
         mBuilder.setTitle("Contact List");
         mBuilder.setMultiChoiceItems(nameList, checkedItem, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                if(b)
+                if (b)
                     mUserItems.add(i);
                 else
                     mUserItems.remove(Integer.valueOf(i));
@@ -346,12 +397,12 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int x) {
                 String nameChecked = "";
-                for (int i = 0; i < mUserItems.size(); i++){
+                for (int i = 0; i < mUserItems.size(); i++) {
                     nameChecked += listNameContact.get(mUserItems.get(i));
                     listBeacon += idBeaconList.get(mUserItems.get(i));
-                    if (i != mUserItems.size() - 1){
+                    if (i != mUserItems.size() - 1) {
                         nameChecked += ", ";
-                        listBeacon += ", ";
+                        listBeacon += ",";
                     }
                 }
                 event_with.setText(nameChecked);

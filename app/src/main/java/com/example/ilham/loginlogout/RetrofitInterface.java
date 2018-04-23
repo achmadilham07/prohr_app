@@ -17,9 +17,17 @@ import retrofit2.http.Part;
 public interface RetrofitInterface {
 
     @Multipart
+    @POST("schedule_add.php")
+    Call<Message> addSchedule(@Part("id_beacon") RequestBody id_beacon,
+                              @Part("date_event") RequestBody date_event,
+                              @Part("title") RequestBody title,
+                              @Part("notes") RequestBody notes,
+                              @Part("partner") RequestBody partner);
+
+    @Multipart
     @POST("employee_entry_now_del.php")
     Call<Message> delEntryNow(@Part("entry") RequestBody entry,
-                                          @Part("id") RequestBody id);
+                              @Part("id") RequestBody id);
 
     @POST("employee_entry_not_approved.php")
     @FormUrlEncoded

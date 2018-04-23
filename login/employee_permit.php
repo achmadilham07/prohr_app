@@ -42,16 +42,12 @@
 		$rand_id = RandomString();
 		
 		$sql = "insert into employee_permit values(null, '$id_beacon', 'Permit', '$category_id', '$date_begin', '$date_end', '$notes', '0', '$date_created', '$date_created', '$rand_id')";
-		$result = $conn->query($sql);
+		$result1 = $conn->query($sql);
+		$result2 = status();
 		
-		if($result){
-			if(status()){
-				$json['status'] = true;
-				$json['message'] = "data berhasil disimpan";
-			} else {
-				$json['status'] = false;
-				$json['message'] = "data gagal disimpan";
-			}
+		if($result1 && $result2){
+			$json['status'] = true;
+			$json['message'] = "data berhasil disimpan";
 		} else {
 			$json['status'] = false;
 			$json['message'] = "data gagal disimpan";
