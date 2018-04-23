@@ -372,9 +372,9 @@ public class ScheduleActivity extends AppCompatActivity {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         Date firstDayOfMonth = calendar.getTime();
         calendar.setTime(firstDayOfMonth);
-        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.MONTH, month-1);
         calendar.set(Calendar.YEAR, year);
-        calendar.add(Calendar.DATE, DoM);
+        calendar.add(Calendar.DATE, DoM-1);
         DefaultTime(calendar);
         long timeInMillis = calendar.getTimeInMillis();
         Event events = new Event(Color.argb(255, 169, 68, 65), timeInMillis, string);
