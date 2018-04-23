@@ -163,7 +163,7 @@ public class ScheduleActivity extends AppCompatActivity {
         Fbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listBeacon = "";
+                listBeacon = idBeacon;
                 inputEvent(mydate);
             }
         });
