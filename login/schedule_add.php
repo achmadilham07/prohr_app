@@ -16,10 +16,10 @@
 
 		global $conn, $title, $notes, $date_event, $partner, $date_created, $rand_id;
 
-		$id_beacon = explode(",", $partner);
-		
+		$list_id_beacon = explode(",", $partner);
+				
 		$key = true;
-		foreach ($id_beacon as $id) {
+		foreach ($list_id_beacon as $id) {
 			$sql = "INSERT INTO `schedule` (`id`, `id_beacon`, `title`, `notes`, `level`, `date_event`, `partner`, `id_event`, `date_created`, `date_modified`) VALUES (NULL, '$id', '$title', '$notes', 'Member', '$date_event', '$partner', '$rand_id', '$date_created', '$date_created');";
 			$result = $conn->query($sql);
 			
@@ -30,7 +30,7 @@
 			}
 		}
 
-		return $result;
+		return $key;
 	}
 	
 	if ( !empty($_POST['title']) && !empty($_POST['notes']) && !empty($_POST['date_event']) && !empty($_POST['id_beacon']) && !empty($_POST['partner']) ){
@@ -47,8 +47,13 @@
 		
 		$sql = "INSERT INTO `schedule` (`id`, `id_beacon`, `title`, `notes`, `level`, `date_event`, `partner`, `id_event`, `date_created`, `date_modified`) VALUES (NULL, '$id_beacon', '$title', '$notes', 'Leader', '$date_event', '$partner', '$rand_id', '$date_created', '$date_created');";
 		$result1 = $conn->query($sql);
-		$result2 = member();
-		
+
+		if ($partner == $id_beacon) {
+			$result2 = $result1;
+		} else {
+			$result2 = member();	
+		}	
+	
 		if($result1 && $result2){
 			$json['status'] = true;
 			$json['message'] = "data berhasil disimpan";

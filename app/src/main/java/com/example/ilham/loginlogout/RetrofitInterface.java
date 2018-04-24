@@ -16,6 +16,10 @@ import retrofit2.http.Part;
 
 public interface RetrofitInterface {
 
+    @POST("schedule_select.php")
+    @FormUrlEncoded
+    Call<Schedule> selectSchedule(@Field("id_beacon") String id_beacon);
+
     @Multipart
     @POST("schedule_add.php")
     Call<Message> addSchedule(@Part("id_beacon") RequestBody id_beacon,

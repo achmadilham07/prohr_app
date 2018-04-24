@@ -163,7 +163,7 @@ public class ScheduleActivity extends AppCompatActivity {
         Fbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listBeacon = idBeacon;
+                listBeacon = "";
                 inputEvent(mydate);
             }
         });
@@ -297,6 +297,53 @@ public class ScheduleActivity extends AppCompatActivity {
         });
     }
 
+    private void select_schedule() {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        // setting uri
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //
+        RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        RequestBody idBeaconRequest = RequestBody.create(MediaType.parse("text/plain"), idBeacon);
+
+        // melakukan koneksi ke http addCatatan.php
+        Call call = retrofitInterface.selectSchedule(idBeacon);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                // response code sama dengan 200
+                if (response.isSuccessful()) {
+
+                    // ubah response body ke dalam catatan list
+                    Message message = (Message) response.body();
+
+                    if (message.getStatus()) {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error ", Toast.LENGTH_SHORT).show();
+                }
+                dialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                dialog.dismiss();
+                Toast.makeText(getApplicationContext(), "No Internet Connected", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void inputEvent(final Date date) {
         String newdate = dateFormat.format(date.getTime());
         month = Integer.parseInt(monthFormat.format(date.getTime()));
@@ -316,6 +363,7 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     event_with.setText("");
+                    listBeacon = idBeacon;
                     mUserItems.clear();
                     Arrays.fill(checkedItem, false);
                 }
@@ -341,7 +389,7 @@ public class ScheduleActivity extends AppCompatActivity {
                         if (!setTitle.isEmpty() && !setEvent.isEmpty() && ((!ListName.isEmpty() && !listBeacon.isEmpty()) || event_alone.isChecked())) {
                             addEvent(day, month, year, setEvent); // nilai - nilai ini masuk ke database
                             Toast.makeText(getApplicationContext(), setTitle + " " + setEvent + " " + listBeacon + " " + idBeacon + " " + day + "-" + month + "-" + year, Toast.LENGTH_SHORT).show();
-                            // add_schedule(year + "-" + month + "-" + day, setEvent, setTitle, listBeacon);
+                            add_schedule(year + "-" + month + "-" + day, setEvent, setTitle, listBeacon);
 
                         }
 
@@ -372,9 +420,9 @@ public class ScheduleActivity extends AppCompatActivity {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         Date firstDayOfMonth = calendar.getTime();
         calendar.setTime(firstDayOfMonth);
-        calendar.set(Calendar.MONTH, month-1);
+        calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.YEAR, year);
-        calendar.add(Calendar.DATE, DoM-1);
+        calendar.add(Calendar.DATE, DoM - 1);
         DefaultTime(calendar);
         long timeInMillis = calendar.getTimeInMillis();
         Event events = new Event(Color.argb(255, 169, 68, 65), timeInMillis, string);

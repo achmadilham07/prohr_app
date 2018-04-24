@@ -6,14 +6,17 @@
 		
 		$sql = "SELECT * FROM schedule WHERE id_beacon = '$id_beacon' ORDER by date_event DESC";
 		$result = $conn->query($sql);
-		
-		if($result){
+		$schedule = null;
+		 
+		if ($result -> num_rows) {
 			$json['status'] = true;
 			$json['message'] = "data berhasil di select";
+
 			while($row = $result ->fetch_assoc()){
 				$schedule[] = $row;
 			}
-			$json['presence'] = $presence;
+
+			$json['schedule'] = $schedule;
 		} else {
 			$json['status'] = false;
 			$json['message'] = "data tidak berhasil di select";
